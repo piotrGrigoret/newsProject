@@ -49,8 +49,8 @@ function App() {
     }
     getData();
    },[])
-   console.log(articles);
-  return (
+
+   return (
     <div className="App">
       {modalComentSetting && 
       <ModalComent
