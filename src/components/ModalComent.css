@@ -1,0 +1,121 @@
+
+.modalComentBackground{
+    background-color: rgba(0, 0, 0, 0.4);
+    /* opacity: 0.3; */
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+   
+}
+
+.modalComentCard{
+
+    width: 70vh;
+    height: 70vh;
+    border-radius: 3vh;
+    background-color: white;
+    opacity: 1;
+    margin-left: 100vh;
+    margin-top: 20vh;
+    display: grid;
+    grid-template-columns: 50% 35% 15%;
+    grid-template-rows: auto auto 20%;
+
+}
+
+.zakratieModalCommentCard{
+    grid-column-start: 3;
+    height: 4vh;
+    cursor: pointer;
+    transition: 0.2s;
+    font-weight:700;
+    font-size: 20px;
+    color: rgb(171, 171, 171);
+    text-align: center;
+
+}
+.zakratieModalCommentCard:hover{
+    color:  red;
+}
+    
+.coomentInput{
+    grid-row-start:3 ;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    /* border: solid; */
+
+}
+.coomentInput textarea {
+    width: 57vh;
+    height: 11vh;
+    resize: none;
+    border-radius: 10px;
+}
+.sendMessage{
+    grid-column-start: 3;
+    grid-row-start: 3;
+}
+.sendMessage img {
+    width: 70px;
+    height: 40px;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.messageArea{
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start:1;
+    grid-row-end: 3;
+    margin-top: 1vh;
+
+}
+.messageAndFotoCard{
+   
+    display: grid;
+    grid-template-columns: 10% auto;
+}
+.messageCard{
+    
+    background-color: rgb(214, 215, 215);
+    width: 23vm;
+    margin: 2px;
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: 20% 45% 30%;
+    grid-template-rows: 35% 50% auto;
+    min-height: 13vh;
+
+}
+.avatar{
+    margin: 2px;
+
+}
+.avatar img{
+    border-radius: 10px;
+    width: 30px;
+    height: 30px;
+}
+.messageText{
+    grid-column-start: 1;
+    grid-column-end: 3;
+    font-weight: 500;
+    grid-row-start: 2;
+}
+.messageName{
+    color: rgb(79, 31, 31);
+    font-weight: 700;
+    grid-row-start: 1;
+    grid-column-start: 1;
+}
+.messageDate{
+    /* border: solid; */
+    /* line-height: 4vmax; */
+    text-align: right;
+    grid-row-start: 3;
+    grid-column-start: 3;
+    font-size: 12px;
+    margin-bottom: 3px;
+    font-weight: 200;
+
+}
