@@ -46,7 +46,9 @@ function App() {
           
         }));
         setDefaultArticles(dannaie.data.articles);
-    }
+        console.log(dannaie);
+
+      }
     getData();
    },[])
 
