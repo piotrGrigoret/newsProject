@@ -23,6 +23,8 @@ const News = (props) => {
                 propsObject = {object} 
                 delete = {onDeleteHandler}
                 propsComentSet = {props.comentSet}
+                propsindexCommentSet =  {props.indexCommentSet} 
+                
             />
             )}
         </div>

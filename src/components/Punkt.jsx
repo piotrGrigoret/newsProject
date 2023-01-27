@@ -4,6 +4,9 @@ import './Punkt.css';
 const Punkt = (props) => {
     const openModalComment = () =>{
         props.propsComentSet(true);
+      
+        const copyObj = {...props.propsObject};
+        props.propsindexCommentSet(props.propsObject.id);
     }
     return(
                                    

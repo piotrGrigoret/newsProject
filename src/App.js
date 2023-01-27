@@ -16,37 +16,36 @@ function App() {
   });
   const [buttonSetting, setButtonSetting] = useState(false);
   const [modalComentSetting, setModalComnetSetting] = useState(false);
+  const [indexComment, setIndexComment] = useState("");  
+
   
-  const [messageArea, setMessageArea] = useState(
-    [
-     
-    ]
-   );
   useEffect(()=>{
     const getData = async () => {
         const dannaie = await axios.get(`https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=f34b416e987b44b9849f7505c8a4782d`);
         setArticles(dannaie.data.articles.map((article, index) =>{
           if(index === 0){
-            return {...article, comments: [
+            return {...article, id: index, comments: [
                 {
                     username : "pliusevaiSlonik98",
                     messageText: "interesting",
                     foto : "/clearAvatar.png",
-                    date: new Date().toString()
+                    // date: new Date().toString()
+                    date: "24:05"
+
                 },
                 {
                     username: "litleGunBaby",
                     messageText: "enter on my page  and will see something interesting",
                     foto : "/clearAvatar.png",
-                    date: new Date().toString()
+                    // date: new Date().toString()
+                    date: "24:12"
                 }
             ]}
           }
-            return {...article, comments: []};
+            return {...article, id: index, comments: []};
           
         }));
         setDefaultArticles(dannaie.data.articles);
-        console.log(dannaie);
 
       }
     getData();
@@ -57,8 +56,9 @@ function App() {
       {modalComentSetting && 
       <ModalComent
         comentSet = {setModalComnetSetting}
-        msgArea = {messageArea}
-        msgAreaSet = {setMessageArea}
+        curentArray = {articles}
+        curentArraySet = {setArticles}
+        commentIndex = {indexComment}
       />}
       <Tablita
         curentArray = {articles}
@@ -82,6 +82,7 @@ function App() {
         lastDeletePropSet = {setLastDelete}
         buttonSet = {setButtonSetting}
         comentSet = {setModalComnetSetting}
+        indexCommentSet = {setIndexComment}
       />
     </div>
   );
