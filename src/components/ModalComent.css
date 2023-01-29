@@ -46,16 +46,18 @@
 
 }
 .coomentInput textarea {
-    width: 57vh;
-    height: 11vh;
+    width: 61vh;
+    height: 15vh;
     resize: none;
     border-radius: 10px;
 }
 .sendMessage{
+    /* border: solid; */
     grid-column-start: 3;
     grid-row-start: 3;
 }
 .sendMessage img {
+ 
     width: 70px;
     height: 40px;
     border-radius: 40px;
@@ -68,23 +70,29 @@
     grid-row-start:1;
     grid-row-end: 3;
     margin-top: 1vh;
-
+    overflow: auto;
 }
 .messageAndFotoCard{
-   
+   /* border: solid; */
     display: grid;
-    grid-template-columns: 10% auto;
+    grid-template-columns: 10% 90%;
 }
 .messageCard{
     
     background-color: rgb(214, 215, 215);
-    width: 23vm;
+    /* width: 23vm; */
     margin: 2px;
     border-radius: 10px;
     display: grid;
-    grid-template-columns: 20% 45% 30%;
-    grid-template-rows: 35% 50% auto;
-    min-height: 13vh;
+    grid-template-columns: 20% 72% 8%;
+    grid-template-rows: 25% 50% 25%;
+    /* min-height: 10vh; */
+    height: 10vh;
+    /* min-width: 23vm; */
+    max-width: 60vh;
+    /* width: 400px; */
+    /* line-height: 25px; */
+    /* overflow: auto; */
 
 }
 .avatar{
@@ -97,7 +105,10 @@
     height: 30px;
 }
 .messageText{
+    margin-top: 0.5vh;
     grid-column-start: 1;
+    min-height: 1vh;
+    line-height: normal;
     grid-column-end: 3;
     font-weight: 500;
     grid-row-start: 2;
@@ -111,11 +122,37 @@
 .messageDate{
     /* border: solid; */
     /* line-height: 4vmax; */
-    text-align: right;
+    /* text-align: right; */
     grid-row-start: 3;
-    grid-column-start: 3;
+    grid-column-start: 2;
     font-size: 12px;
-    margin-bottom: 3px;
     font-weight: 200;
+    text-align: right;
+    
+}
+
+
+.noneDisplayKrestik{
+    display: none;
+}
+.ModalCommentkrestik{
+    grid-row-start: 1;
+
+    grid-column-start:3;
+    font-size: large;
+    margin-top: 1vh;
+    margin-left: 1vh;
+}
+
+.ModalCommentkrestik img{
+    width: 18px;
+    height: 18px;
+    transition: 0.2s;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.ModalCommentkrestik img:hover{
+    width: 22px;
+    height: 22px;
 
 }

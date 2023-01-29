@@ -20,6 +20,7 @@ const Punkt = (props) => {
                 <div  className="content">{props.propsObject.content}</div>
                 <div  className="comment"><img onClick={openModalComment} src="./comment.png" alt="" /></div>
                 <div  className="title">{props.propsObject.title}</div>
+                {/* <div className="fotoNews"> <img src={props.propsObject.urlToImage} alt="" /></div> */}
                 <div  className="krestik"><img onClick={() => props.delete(props.propsObject) } src="./trash.png" alt="" /></div>
 
             </div>
