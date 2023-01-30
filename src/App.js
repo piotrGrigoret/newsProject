@@ -12,7 +12,18 @@ function App() {
       author: "",
       content:"",
       title:"",
-      publishedAt: new Date()
+      publishedAt: new Date(),
+      id: Math.floor(Math.random() * 100000000000000),
+      comments: [
+        {
+          username : "rotusZaglotus69",
+          messageText: "its a fake - you just got scammed",
+          foto : "/clearAvatar.png",
+          // date: new Date().toString()
+          date: "24:05"
+
+      },
+      ]
   });
   const [buttonSetting, setButtonSetting] = useState(false);
   const [modalComentSetting, setModalComnetSetting] = useState(false);
@@ -35,7 +46,7 @@ function App() {
                 },
                 {
                     username: "litleGunBaby",
-                    messageText: "enter on my page  and will see something interesting",
+                    messageText: "enter on my page  and will see something interesting ",
                     foto : "/clearAvatar.png",
                     // date: new Date().toString()
                     date: "24:12"
@@ -45,12 +56,34 @@ function App() {
             return {...article, id: index, comments: []};
           
         }));
-        setDefaultArticles(dannaie.data.articles);
+        setDefaultArticles(dannaie.data.articles.map((article, index) =>{
+          if(index === 0){
+            return {...article, id: index, comments: [
+                {
+                    username : "pliusevaiSlonik98",
+                    messageText: "interesting",
+                    foto : "/clearAvatar.png",
+                    // date: new Date().toString()
+                    date: "24:05"
+
+                },
+                {
+                    username: "litleGunBaby",
+                    messageText: "enter on my page  and will see something interesting ",
+                    foto : "/clearAvatar.png",
+                    // date: new Date().toString()
+                    date: "24:12"
+                }
+            ]}
+          }
+            return {...article, id: index, comments: []};
+          
+        }));
 
       }
     getData();
    },[])
-
+  //  console.log(articles);
    return (
     <div className="App">
       {modalComentSetting && 

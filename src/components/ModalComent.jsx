@@ -93,8 +93,10 @@ const ModalComent = (props) =>{
                                     <div className="messageName">{comment.username}</div>
                                     <div className="messageDate">{comment.date}</div>
                                     {comment.username == "misterCrow21" && 
-                                    <div onClick={() => deleteMessageHandler(comment)}  className="ModalCommentkrestik">
-                                        <img src="./trash.png" alt="" />
+                                    // <div className="">
+                                        <div onClick={() => deleteMessageHandler(comment)}  className="ModalCommentkrestik">
+                                            <img src="./trash.png" alt="" />
+                                        {/* </div> */}
                                     </div>}
 
                                 </div>

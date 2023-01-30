@@ -72,6 +72,37 @@
     margin-top: 1vh;
     overflow: auto;
 }
+.messageArea::-webkit-scrollbar {
+    width: 4px; /* ширина для вертикального скролла */
+    height: 1px; /* высота для горизонтального скролла */
+    background-color: #ced3d7;
+}
+.messageArea::-webkit-scrollbar-thumb {
+    background-color: #1b1584;
+    border-radius: 9em;
+    box-shadow: inset 1px 1px 10px #757b79;
+}
+
+.messageArea::-webkit-scrollbar-thumb:hover {
+    background-color: #163365;
+}
+
+::-webkit-scrollbar {
+    width: 14px; /* ширина для вертикального скролла */
+    height: 1px; /* высота для горизонтального скролла */
+    background-color: #ced3d7;
+    
+}
+::-webkit-scrollbar-thumb {
+    background-color: #5e5d68;
+    border-radius: 9em;
+    box-shadow: inset 1px 1px 10px #757b79;
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: #272828;
+}
+
+
 .messageAndFotoCard{
    /* border: solid; */
     display: grid;
@@ -80,19 +111,14 @@
 .messageCard{
     
     background-color: rgb(214, 215, 215);
-    /* width: 23vm; */
     margin: 2px;
     border-radius: 10px;
     display: grid;
     grid-template-columns: 20% 72% 8%;
     grid-template-rows: 25% 50% 25%;
-    /* min-height: 10vh; */
-    height: 10vh;
-    /* min-width: 23vm; */
+    
     max-width: 60vh;
-    /* width: 400px; */
-    /* line-height: 25px; */
-    /* overflow: auto; */
+  
 
 }
 .avatar{
@@ -108,10 +134,13 @@
     margin-top: 0.5vh;
     grid-column-start: 1;
     min-height: 1vh;
-    line-height: normal;
     grid-column-end: 3;
     font-weight: 500;
     grid-row-start: 2;
+    /* border: solid; */
+    width: 50vh;
+    word-break: break-all;
+    height: max-content;
 }
 .messageName{
     color: rgb(79, 31, 31);
@@ -137,7 +166,8 @@
 }
 .ModalCommentkrestik{
     grid-row-start: 1;
-
+    width: 22px;
+    height: 22px;
     grid-column-start:3;
     font-size: large;
     margin-top: 1vh;

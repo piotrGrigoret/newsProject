@@ -12,6 +12,7 @@ const Tablita = (props) => {
 
     const onReturnHandler = () =>{
         props.curentArraySet(props.allArray);
+        props.buttonSet(false);
 
     }
     const onReturnLastDeleteHandler = () => {
