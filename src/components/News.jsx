@@ -17,7 +17,6 @@ const News = (props) => {
     }
     return(
         <div className="news">
-            <NewsItem/>            
             {props.curentArray.map((object)=> 
                 <Punkt 
                 propsObject = {object} 

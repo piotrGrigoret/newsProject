@@ -43,11 +43,30 @@ const Tablita = (props) => {
     const onSubmitObjectHandler = () => {
         const arrCopy = [props.submitObject,...props.curentArray];
         // arrCopy= [props.submitObject, ...arrCopy];
-        props.curentArraySet(arrCopy);
-        props.allArraySet(arrCopy);
-        setObjValue1("");
-        setObjValue2("");
-        setObjValue3("");
+        if(props.submitObject.author !== "" && props.submitObject.title !== "" ){
+            props.curentArraySet(arrCopy);
+            props.allArraySet(arrCopy);
+            setObjValue1("");
+            setObjValue2("");
+            setObjValue3("");
+            props.submitObjectSet({       
+                author: "",
+                content:"",
+                title:"",
+                publishedAt: new Date(),
+                id: Math.floor(Math.random() * 100000000000000),
+                comments: [
+                {
+                    username : "rotusZaglotus69",
+                    messageText: "its a fake - you just got scammed",
+                    foto : "/clearAvatar.png",
+                    // date: new Date().toString()
+                    date: "24:05"
+        
+                },
+                ]
+            });
+        };
     }    
    return(
         <div className="tablita">

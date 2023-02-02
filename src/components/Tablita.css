@@ -1,7 +1,7 @@
 .tablita{
     display: grid;
     grid-template-columns: auto;
-    grid-template-rows: 84.5%  auto;
+    grid-template-rows: 55%  auto;
     background-color: rgb(73, 70, 70);
     width: 65vh;
     height: 100vh;

@@ -1,8 +1,14 @@
-.newsItemCard{
+@import url('https://fonts.googleapis.com/css?family=Ubuntu+Condensed');
 
-}
 .newsItem{
-    font-size: 20vh;
+    font-size: 10vh;
+    /* border: solid; */
+    text-align: center;
     font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 
+}
+.newsItem img {
+    /* border: solid; */
+    width: 35vh;
+    height: 15vh;
 }
