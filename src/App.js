@@ -3,6 +3,7 @@ import BusinessNewsPage from './pages/BusinessNewsPage';
 import axios, { all } from "axios";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from './components/Layout';
+import CentralPage from './pages/CentralPage';
 import './App.css';
 
 function App() {
@@ -12,12 +13,15 @@ function App() {
     <BrowserRouter>
             <Routes>
               <Route path="/" element={<Layout/>}>
+                <Route path = "/" element={<CentralPage/>} />
                 <Route path = "businessNews" element={<BusinessNewsPage/>} />
                 <Route path = "techNews" element={<TechNewsPage/>} />
               </Route>
             </Routes>
           </BrowserRouter>
+
     </>
+
   );
 }
 

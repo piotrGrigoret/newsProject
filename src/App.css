@@ -6,3 +6,15 @@
   grid-template-columns: auto 65%;
   gap: 4vh;
 }
+
+
+
+
+.default{
+  margin-top: 20vh;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: 8vh;
+  opacity: 0.7;
+  font-weight:lighter;
+  text-align: center;
+}
