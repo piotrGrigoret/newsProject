@@ -1,0 +1,78 @@
+
+
+.menuContainer{
+    display: grid;
+    grid-template-columns: auto 65%;
+}
+
+
+
+@import url('https://fonts.googleapis.com/css?family=Ubuntu+Condensed');
+.menu-main {
+  /* border: solid; */
+    list-style: none;
+    padding: 25px 0 45px;
+    margin-bottom:  9vh;
+    text-align: left;
+}
+.menu-main li {display: inline-block;}
+.menu-main li:after {
+  content: "|";
+  color: #242224;
+  display: inline-block;
+  vertical-align:top;
+}
+.menu-main li:last-child:after {content: none;}
+.menu-main a {
+    text-decoration: none;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    letter-spacing: 2px;
+    position: relative;
+    padding-bottom: 20px;
+    margin: 0 34px 0 30px;
+    font-size: 1.3vw;
+    font-weight: 500;
+    text-transform: uppercase;
+    display: inline-block;
+    transition: color .1.5s;
+}
+.menu-main a, .menu-main a:visited {color: #242224;}
+.menu-main a.current, .menu-main a:hover{color: #6a6a6a;}
+.menu-main a:before,
+.menu-main a:after {
+  content: "";
+  position: absolute;
+  height: 4px;
+  top: auto;
+  right: 50%;
+  bottom: -5px;
+  left: 50%;
+  background: #9f9e9e;
+  transition: .2s;
+}
+.menu-main a:hover:before, .menu-main .current:before {left: 0;}
+.menu-main a:hover:after, .menu-main .current:after {right: 0;}   
+@media (max-width: 550px) {
+.menu-main {padding-top: 0;}
+.menu-main li {display: block;}
+.menu-main li:after {content: none;}
+.menu-main a {
+  padding: 25px 0 20px; 
+  margin: 0 30px;
+}
+}
+
+.active{
+  color: var(--color-active);
+  cursor: default;
+}
+.active .menu-main a {
+  padding: 25px 0 20px; 
+  margin: 0 30px;
+}
+
+
+
+
+
+

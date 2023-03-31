@@ -1,0 +1,7 @@
+.news{
+    margin-top: 10vh;
+    grid-column-start: 2;
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 2vh;
+}
