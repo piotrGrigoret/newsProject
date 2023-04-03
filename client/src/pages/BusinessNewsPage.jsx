@@ -32,12 +32,12 @@ function BusinessNewsPage(props) {
 
    return (
     <div className="App">
-      <div className="goToArchieve">
+      {/* <div className="goToArchieve">
         <Link  className="linkArchieve"  to = "/archieve" >
             <img title = "open archive" src="./arh.png" alt="" />
         </Link>
-        </div>
-      {modalComentSetting && 
+      </div> */}
+      {/* {modalComentSetting && 
       <ModalComent
         comentSet = {setModalComnetSetting}
         curentArray = {articles}
@@ -45,7 +45,7 @@ function BusinessNewsPage(props) {
         commentIndex = {indexComment}
         articleMessages = {oneArticleComments}
         setArticleMessages  = {setOneArticleCommenss}
-      />}
+      />} */}
        <News
         curentArray = {articles}
         curentArraySet = {setArticles}
@@ -54,6 +54,8 @@ function BusinessNewsPage(props) {
         setArchieveArr = {props.setArchieveArr}
         archieveArr = {props.archieveArr}
         setAtricleForComments = {props.setAtricleForComments}
+        setBackMainFromComments = {props.setBackMainFromComments}
+        adressToBackFromComments = {"businessNews"}
         /> 
 
     </div>

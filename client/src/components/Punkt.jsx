@@ -10,6 +10,7 @@ const Punkt = (props) => {
     // }
     const openComment = () =>{
         props.setAtricleForComments(props.propsObject);
+        props.setBackMainFromComments(props.adressToBackFromComments);
     }
     // console.log(props.propsObject.galka)
     return(

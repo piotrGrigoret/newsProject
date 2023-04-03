@@ -18,21 +18,17 @@
   font-weight:lighter;
   text-align: center;
 }
-.goToArchieve{
+/* .goToArchieve{
   grid-column-start: 2;
-  width: 3vw;
-  /* border: solid; */
+  width: 1.3vw;
 }
 
 
 .linkArchieve{
   text-decoration: none;  
   color: black;
-  /* border: solid; */
-  /* width: 4vw; */
-  /* height: 4vw; */
 }
 .linkArchieve img{
   height: 3vw;
   width: 3vw;
-}
+} */

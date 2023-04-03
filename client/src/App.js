@@ -15,13 +15,17 @@ function App() {
 
   //// СТЕЙТЫ ДЛЯ КОММЕНТАРИЕВ
   const [atricleForComments, setAtricleForComments] = useState({});
+  const [backMainFromComment, setBackMainFromComments] = useState("");
   // console.log(archieveArr);
   return (
     <>
     <BrowserRouter>
             <Routes>
+
               <Route>
+
                 {
+                  
                 <Route path="/" element={<Layout/>}>
                     <Route path = "/" element = {<CentralPage setArchieveArr = {setArchieveArr} />} />
                     <Route path = "businessNews" element = {
@@ -29,12 +33,14 @@ function App() {
                         setArchieveArr = {setArchieveArr} 
                         archieveArr = {archieveArr}
                         setAtricleForComments = {setAtricleForComments}
+                        setBackMainFromComments = {setBackMainFromComments}
                       />} />
                     <Route path = "techNews" element = {
                       <TechNewsPage 
                         setArchieveArr = {setArchieveArr} 
                         archieveArr = {archieveArr}
                         setAtricleForComments = {setAtricleForComments}
+                        setBackMainFromComments = {setBackMainFromComments}
                       />} />
                     <Route path= "archieve" element = {
                       <Archieve 
@@ -43,11 +49,13 @@ function App() {
                         lastDeleteArchiveObject={lastDeleteArchiveObject}
                         setlastDeleteArchiveObject = {setlastDeleteArchiveObject}
                         setAtricleForComments = {setAtricleForComments}
+                        setBackMainFromComments = {setBackMainFromComments}
                         />
                       }/>
-                      <Route path="comments" element = {
+                    <Route path="comments" element = {
                       <Comments 
                         atricleForComments = {atricleForComments}
+                        backMainFromComment = {backMainFromComment}
                       />}/>
                   </Route>
                 }

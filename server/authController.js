@@ -1,5 +1,4 @@
 const User = require("./models/User");
-const Role = require("./models/Role");
 const bcrypt = require('bcryptjs');
 const {validationResult} = require('express-validator');
 const jwt = require('jsonwebtoken');
@@ -17,7 +16,7 @@ class authController{
 
     async registration (req, res){
         try {
-            const errors = validationResult(req)
+            const errors = validationResult(req);
             console.log("************");
             console.log(req.body);
             console.log(errors);
@@ -32,8 +31,7 @@ class authController{
             }
             
             const hashPassword = bcrypt.hashSync(password, 7);
-            const userRole = await Role.findOne({value:"USER"});
-            const user = new User({username, password: hashPassword, roles: [userRole.value] });
+            const user = new User({username, password: hashPassword });
             await user.save();
             return res.json({message: "Пользователь успешно зарегитрирован"});
         } catch (error) {
@@ -44,6 +42,8 @@ class authController{
     async login (req, res){
         try {
             const {username, password} = req.body;
+            console.log(username);
+
             const user = await User.findOne({username});
             if(!user){
                 return res.status(400).json({message:  `Пользователь ${username} не существует`});     

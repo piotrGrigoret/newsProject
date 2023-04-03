@@ -1,80 +1,73 @@
 import React from 'react';
 import { useState } from 'react';
 import './Comments.css';
+import { Link } from 'react-router-dom';
 export const Comments = (props) => {
- 
-    // const [articleMessages, setArticleMessages]  = useState(props.curentArray.find((curent) =>{
         
-    //     if(curent.id == props.commentIndex){
-    //         return curent;
-    //     }
-        
-    // }));
+    const [articleMessages, setArticleMessages]  = useState(props.atricleForComments.comments);
+    console.log(articleMessages);
 
-
-    // const [objectCopy, setObjectcopy] = useState(
-    //     {
-    //         username : "misterCrow21",
-    //         messageText: "",
-    //         foto : "/clearAvatar.png",
-    //         date : "",
-    //         id: Math.floor(Math.random() * 100000000000000),
-    //         classForKrestik : "ModalCommentkrestik"
-    //     }
-    // );
+    const [objectCopy, setObjectcopy] = useState(
+        {
+            username : "misterCrow21",
+            messageText: "",
+            foto : "/clearAvatar.png",
+            date : "",
+            id: Math.floor(Math.random() * 100000000000000),
+            classForKrestik : "ModalCommentkrestik"
+        }
+    );
     
-    // const [forArea, setForArea] = useState("");
+    const [forArea, setForArea] = useState("");
 
-    // const closeModalComment = () =>{
-    //     props.comentSet(false);
-    // };
+    
 
-    // const addMessageInfoHandler = (event) =>{
+    const addMessageInfoHandler = (event) =>{
        
-    //     const objCopy = {...objectCopy};
-    //     objCopy.messageText = event.target.value;
-    //     setForArea(event.target.value);
-    //     setObjectcopy(objCopy);
+        const objCopy = {...objectCopy};
+        objCopy.messageText = event.target.value;
+        setForArea(event.target.value);
+        setObjectcopy(objCopy);
  
-    // };
+    };
 
-    // const sendMessageHandler = () => {
+    const sendMessageHandler = () => {
  
-    //     if(objectCopy.messageText !== ""){
+        if(objectCopy.messageText !== ""){
 
-    //         const h = new Date().getHours();
-    //         const m = new Date().getMinutes();
-    //         const commentCopy = {...objectCopy, date: h + ":" + m};
-    //         const newArticle = {...articleMessages};
-    //         const copyNewArticle = {...newArticle, comments: [...newArticle.comments, commentCopy]};
+            const h = new Date().getHours();
+            const m = new Date().getMinutes();
+            const commentCopy = {...objectCopy, date: h + ":" + m};
+            const newArticle = {...articleMessages};
+            const copyNewArticle = {...newArticle, comments: [...newArticle.comments, commentCopy]};
 
-    //         setArticleMessages(copyNewArticle);
+            setArticleMessages(copyNewArticle);
 
-    //         setObjectcopy({
-    //             username : "misterCrow21",
-    //             messageText: "",
-    //             foto : "/clearAvatar.png",
-    //             date : "",
-    //             id:Date.now().toString(),
-    //             classForKrestik : "ModalCommentkrestik"
+            setObjectcopy({
+                username : "misterCrow21",
+                messageText: "",
+                foto : "/clearAvatar.png",
+                date : "",
+                id:Date.now().toString(),
+                classForKrestik : "ModalCommentkrestik"
 
-    //         });
-    //         setForArea("");
+            });
+            setForArea("");
 
-    //         const mainArray = props.curentArray.map((curent)=>{
-    //             if(curent.id == props.commentIndex){
-    //                 console.log(";");
-    //                 return curent = {...copyNewArticle};
-    //             }
-    //             else{
-    //                 return curent;
-    //             }
-    //         });
-    //         props.curentArraySet(mainArray);
-    //         // console.log(props.curentArray);
+            const mainArray = props.curentArray.map((curent)=>{
+                if(curent.id == props.commentIndex){
+                    console.log(";");
+                    return curent = {...copyNewArticle};
+                }
+                else{
+                    return curent;
+                }
+            });
+            props.curentArraySet(mainArray);
+            // console.log(props.curentArray);
             
-    //     };
-    // };
+        };
+    };
    
     // const deleteMessageHandler = (comment) => {
     //     const copyObj = {...articleMessages};
@@ -104,9 +97,16 @@ export const Comments = (props) => {
     // console.log(articleMessages);
  
     // console.log(props.atricleForComments);
+ 
+    
+    const test = (event) => {
+        console.log('Key down event:', event.key);
+
+    }
+    
     return (
     <div className='commentsBox'>
-            <div className='back'>🠔Back</div>
+            <div className='back' ><Link className='backLink' to = {"/" + props.backMainFromComment}>🠔Back</Link></div>
             
             <div  className="punktComments" >
                 <div  className="autor">{props.atricleForComments.author}</div>
@@ -121,8 +121,9 @@ export const Comments = (props) => {
             </div>
             <div className="messageArea">
             </div>
-            <div className="coomentInput"><textarea   name="" id="" cols="30" rows="10"></textarea></div>
-            <div className="sendMessageComments"><img  src="./send2.png" alt="" /></div>
+            <div className="coomentInput"><textarea  placeholder='Type comment...' name="" id="" cols="30" rows="10"></textarea></div>
+            <div className="sendMessageComments" onKeyDown={test}><img  src="./send2.png" alt="" /></div>
+
 
     </div>
   )

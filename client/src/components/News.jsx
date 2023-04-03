@@ -9,28 +9,29 @@ const News = (props) => {
     useEffect(()=>{
         setArticles(props.curentArray);
         proverkaDobavleniaVArhiv();
-      })
-    const proverkaDobavleniaVArhiv = () => {
-        // console.log(props.archieveArr);
         const updatedArticles = props.curentArray.map((arrayObj)=>{    
-            // props.archieveArr.map((archive) =>{
-            //     if(){
-            //         console.log("fr");
-            //     }
-            // });
             if(props.archieveArr.find(article => article.title === arrayObj.title)){
             
                 return {...arrayObj, galka: true}; 
             }
-            // if(arrayObj.id == propsObject.id){
-            //     const copyArrayObject = {...arrayObj, galka: true};
-            //     return copyArrayObject;
-            // }    
             return arrayObj;
         });
-        console.log(updatedArticles);
+        // console.log(updatedArticles);
         setArticles(updatedArticles);
-        // props.curentArraySet(updatedArticles);
+        proverkaDobavleniaVArhiv();
+
+      }, [props.curentArray, props.archieveArr])
+    const proverkaDobavleniaVArhiv = () => {
+        // console.log(props.archieveArr);
+        const updatedArticles = props.curentArray.map((arrayObj)=>{    
+            if(props.archieveArr.find(article => article.title === arrayObj.title)){
+            
+                return {...arrayObj, galka: true}; 
+            }
+            return arrayObj;
+        });
+        // console.log(updatedArticles);
+        setArticles(updatedArticles);
     }
     const onAddToArchieveArticleHandler = (propsObject) =>{
         // console.log(props.archieveArr);
@@ -59,6 +60,8 @@ const News = (props) => {
                     propsButtonAddRegulator = {props.buttonAddRegulator}
                     setArchieveArr = {props.setArchieveArr}
                     setAtricleForComments = {props.setAtricleForComments}
+                    setBackMainFromComments = {props.setBackMainFromComments}
+                    adressToBackFromComments = {props.adressToBackFromComments}
                 />
             )}
         </div>

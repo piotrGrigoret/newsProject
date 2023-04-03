@@ -35,7 +35,7 @@ function TechNewsPage(props) {
   
    return (
     <div className="App">
-      <div className="goToArchieve"><Link className="linkArchieve" to = "/archieve" lig = {"gr"}><img title = "open archive" src="./arh.png" alt="" /></Link></div>
+      {/* <div className="goToArchieve"><Link className="linkArchieve" to = "/archieve" lig = {"gr"}><img title = "open archive" src="./arh.png" alt="" /></Link></div> */}
       
       {modalComentSetting && 
       <ModalComent
@@ -55,6 +55,9 @@ function TechNewsPage(props) {
         setArchieveArr = {props.setArchieveArr}
         archieveArr = {props.archieveArr}
         setAtricleForComments = {props.setAtricleForComments}
+        setBackMainFromComments = {props.setBackMainFromComments}
+        adressToBackFromComments = {"techNews"}
+
         />  
          
       

@@ -38,7 +38,8 @@ export const Archieve = (props) => {
                       propsComentSet = {props.comentSet}
                       onDeleteArchiveArticleHandler = {onDeleteArchiveArticleHandler}
                       setAtricleForComments = {props.setAtricleForComments}
-                  
+                      setBackMainFromComments = {props.setBackMainFromComments}
+                      adressToBackFromComments = {"archieve"}
                       // propsindexCommentSet =  {props.indexCommentSet} 
                     // propsButtonAddRegulator = {props.buttonAddRegulator}
                     // setArchieveArr = {props.setArchieveArr}
