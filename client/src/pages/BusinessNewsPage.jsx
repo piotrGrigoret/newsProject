@@ -32,20 +32,7 @@ function BusinessNewsPage(props) {
 
    return (
     <div className="App">
-      {/* <div className="goToArchieve">
-        <Link  className="linkArchieve"  to = "/archieve" >
-            <img title = "open archive" src="./arh.png" alt="" />
-        </Link>
-      </div> */}
-      {/* {modalComentSetting && 
-      <ModalComent
-        comentSet = {setModalComnetSetting}
-        curentArray = {articles}
-        curentArraySet = {setArticles}
-        commentIndex = {indexComment}
-        articleMessages = {oneArticleComments}
-        setArticleMessages  = {setOneArticleCommenss}
-      />} */}
+      <div className='archievetitle'>Business <img src="/business.png" alt="" /></div>
        <News
         curentArray = {articles}
         curentArraySet = {setArticles}

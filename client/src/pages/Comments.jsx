@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 export const Comments = (props) => {
         
     const [articleMessages, setArticleMessages]  = useState(props.atricleForComments.comments);
-    console.log(articleMessages);
+    // console.log(articleMessages);
 
     const [objectCopy, setObjectcopy] = useState(
         {
@@ -19,16 +19,22 @@ export const Comments = (props) => {
     );
     
     const [forArea, setForArea] = useState("");
-
+    const [changheSendButton, setChangheSendButton] = useState(false);
     
 
     const addMessageInfoHandler = (event) =>{
-       
+        
         const objCopy = {...objectCopy};
         objCopy.messageText = event.target.value;
         setForArea(event.target.value);
         setObjectcopy(objCopy);
- 
+    //    console.log(objCopy.messageText);
+        if(objCopy.messageText.length > 0){
+            setChangheSendButton(true);
+        }else{
+            setChangheSendButton(false);
+
+        }
     };
 
     const sendMessageHandler = () => {
@@ -121,8 +127,8 @@ export const Comments = (props) => {
             </div>
             <div className="messageArea">
             </div>
-            <div className="coomentInput"><textarea  placeholder='Type comment...' name="" id="" cols="30" rows="10"></textarea></div>
-            <div className="sendMessageComments" onKeyDown={test}><img  src="./send2.png" alt="" /></div>
+            <div className="coomentInput"><textarea onChange={addMessageInfoHandler}  value={forArea} placeholder='Type comment...' name="" id="" cols="30" rows="10"></textarea></div>
+            <div className={changheSendButton ? "sendMessageComments" : "sendMessageCommentsDisable"} onKeyDown={test}><img  src="./send2.png" alt="" /></div>
 
 
     </div>

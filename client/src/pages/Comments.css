@@ -118,15 +118,38 @@
     /* border: solid; */
     grid-column-start: 3;
     grid-row-start: 3;
-}
-.sendMessageComments img {
-    width: 1.7vw;
-    height: 1.7vw;
+    width: 50%;
+    margin-left: 1vw;
+    opacity: 1;
     cursor: pointer;
-    transition: 0.2s;
-    float: right;
+
+    transition: 0.7s;
+
 }
 
+.sendMessageComments img {
+    width: 1.9vw;
+    height: 1.9vw;
+    float: left;
+    transition: 0.4s;
+
+}
+.sendMessageCommentsDisable{
+    grid-column-start: 3;
+    grid-row-start: 3;
+    width: 50%;
+    margin-left: 1vw;
+    opacity: 0.4;
+    transition: 0.7s;
+
+}
+.sendMessageCommentsDisable img {
+    width: 1.7vw;
+    height: 1.7vw;
+    float: left;
+    transition: 0.3s;
+
+}
 .back{
     cursor: pointer;
     font-size: 1.5vw;

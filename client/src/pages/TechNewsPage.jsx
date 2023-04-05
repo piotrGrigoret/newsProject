@@ -36,17 +36,8 @@ function TechNewsPage(props) {
    return (
     <div className="App">
       {/* <div className="goToArchieve"><Link className="linkArchieve" to = "/archieve" lig = {"gr"}><img title = "open archive" src="./arh.png" alt="" /></Link></div> */}
+      <div className='archievetitle'>Technologies <img src="/tech.png" alt="" /></div>
       
-      {modalComentSetting && 
-      <ModalComent
-        comentSet = {setModalComnetSetting}
-        curentArray = {articles}
-        curentArraySet = {setArticles}
-        commentIndex = {indexComment}
-        articleMessages = {oneArticleComments}
-        setArticleMessages  = {setOneArticleCommenss}
-
-      />}
     <News
         curentArray = {articles}
         curentArraySet = {setArticles}

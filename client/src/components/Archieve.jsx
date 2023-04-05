@@ -19,7 +19,7 @@ export const Archieve = (props) => {
       }
   return (
       <div className="AppArchieve">
-      <div className='archievetitle'>Archieve</div>
+      <div className='archievetitle'>Archieve <img src="/arh.png" alt="" /></div>
             <Button 
               archieveArr = {props.archieveArr}
               setArchieveArr = {props.setArchieveArr}

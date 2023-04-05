@@ -6,7 +6,8 @@ import CentralPage from './pages/CentralPage';
 import { Comments } from "./pages/Comments";
 import './App.css';
 import { Archieve } from './components/Archieve';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import RegistrationPage from "./pages/RegistrationPage";
 function App() {
   
   //// СТЕЙТЫ ДЛЯ АРХИВА
@@ -14,19 +15,45 @@ function App() {
   const [lastDeleteArchiveObject, setlastDeleteArchiveObject] = useState("");
 
   //// СТЕЙТЫ ДЛЯ КОММЕНТАРИЕВ
-  const [atricleForComments, setAtricleForComments] = useState({});
+  const [atricleForComments, setAtricleForComments] = useState([]);
   const [backMainFromComment, setBackMainFromComments] = useState("");
   // console.log(archieveArr);
-  return (
+ 
+  // ОБЪЕКТ ЮЗЕРА ПОЛУЧАЕМЫЙ ИЗ БД
+  const [user, setUser] = useState({});
+
+  //РАБОТА С АВТОРИЗАЦИЕЙ ЧЕРЕЗ ЛОКАЛ СТОРАДЖ  
+  const userAcessLocalStorage = JSON.parse(localStorage.getItem('userAcess'));
+  
+  // ПЕРЕМЕННАЯ ОТВЕЧАЮЩАЯ ЗА ДОСТУП К АККАУНТУ ИЗ РЕГИСТРАЦИИ
+  const [boolVariable, setBoolVariable] = useState(userAcessLocalStorage); 
+  // console.log(boolVariable);
+
+ return (
     <>
+    {!boolVariable ? 
+    <RegistrationPage// ВЫНЕСТИ В ОТДЕЛЬНЫЙ ДОМЕН
+      setBoolVariable = {setBoolVariable}
+      setUser = {setUser}
+    />
+    :
     <BrowserRouter>
-            <Routes>
-
-              <Route>
-
-                {
-                  
-                <Route path="/" element={<Layout/>}>
+            <Routes>     
+            {/* {!boolVariable ?               //ТАК БУДЕТ ПРАВИЛЬНЕЕ Я ДУМАЮ, В ОТДЕЛЬНОМ РОУТЕ НО ПОКА ЧТО НЕ РАБОТАЕТ -НАДО УЗНАТЬ КАК ЭТО СДЕЛАТЬ
+                <Route path="/registration" 
+                element={
+                  <RegistrationPage                      
+                      setBoolVariable = {setBoolVariable}
+                      setUser = {setUser}
+                  />}
+                />
+                : */}
+                <Route path="/" 
+                element={
+                <Layout 
+                    setBoolVariable = {setBoolVariable}
+                    user = {user}
+                />}>
                     <Route path = "/" element = {<CentralPage setArchieveArr = {setArchieveArr} />} />
                     <Route path = "businessNews" element = {
                       <BusinessNewsPage 
@@ -58,11 +85,10 @@ function App() {
                         backMainFromComment = {backMainFromComment}
                       />}/>
                   </Route>
-                }
-              </Route>
+              {/* } */}
             </Routes>
           </BrowserRouter>
-
+        }
     </>
 
   );

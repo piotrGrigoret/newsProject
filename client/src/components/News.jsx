@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./News.css";
 import Punkt from "./Punkt";
 import NewsItem from "./NewsItem";
+import axios from 'axios';
 
 const News = (props) => {
     // ГАЛКИ НЕ СОХРАНЯЮТСЯ - ВОЗМОЖНО МОЖНО БУЖЕТ РЕШИТЬ ЧЕРЕЗ БД
@@ -33,7 +34,7 @@ const News = (props) => {
         // console.log(updatedArticles);
         setArticles(updatedArticles);
     }
-    const onAddToArchieveArticleHandler = (propsObject) =>{
+    const onAddToArchieveArticleHandler = async(propsObject) =>{
         // console.log(props.archieveArr);
         // console.log(propsObject);
         const copyObject = {...propsObject};
@@ -41,6 +42,22 @@ const News = (props) => {
         
         props.setArchieveArr(copyArchieveArr);
         // proverkaDobavleniaVArhiv(propsObject);
+        const defaultUserObj = 
+        {
+            username: "user4",
+            password:"user4",
+            // name:"",
+            // phone:"",
+        }     
+        try {
+            const response = await axios.post("http://localhost:5000/auth/registration", defaultUserObj);
+            console.log(response);
+          } catch (error) {
+            console.error(error);
+          }
+
+    
+        // await axios.post("http://localhost:5000/test",{user: defaultUserObj} );//ПРОБЛЕМА В РОУТИНГЕ И В КОРС
         
 
     }

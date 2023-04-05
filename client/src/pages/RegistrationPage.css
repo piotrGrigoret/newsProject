@@ -1,0 +1,138 @@
+.container{
+    width: 33vw;
+    height: 26vw;
+    border: solid;
+    display: grid;
+    grid-template-columns: auto;
+    margin-left: 35%;
+    border-radius: 3vw;
+    margin-top: 10%;
+}
+.container2{
+    width: 33vw;
+    height: 32vw;
+    border: solid;
+    display: grid;
+    grid-template-columns: auto;
+    margin-left: 35%;
+    border-radius: 3vw;
+    margin-top: 5%;
+}
+.errorBox{
+    background-color: rgb(197, 57, 57);
+    opacity: 0.8;
+    border-radius: 2vw;
+    width: 93%;
+    margin-left: 3.4%;
+    
+}
+.sucessBox{
+    background-color: rgb(57, 197, 78);
+    opacity: 0.8;
+    border-radius: 2vw;
+    width: 70%;
+    margin-left: 12.8%;
+}
+.errorBoxRegistration{
+    background-color: rgb(197, 57, 57);
+    opacity: 0.8;
+    border-radius: 2vw;
+    width: 80%;
+    margin-left: 7.8%;
+    
+}
+.pustashka{
+    margin-bottom: 2vw;
+    height: 3vw;
+    text-align: center;
+    font-size: large;
+    font-size: 1.5vw;
+}
+.registrationInput{
+    width: 25vw;
+    height: 4vw;
+    border-radius: 1vw;
+    border: solid rgb(113, 107, 107) 0.1vw;
+    margin-left: 3vw;
+    margin-bottom: 0.3vw;
+    background-color: rgb(230, 228, 226);
+    font-size: 1vw;
+    font-weight: 600;
+}
+.undText{
+    margin-left: 3vw;
+    font-size: 1vw;
+}
+.linkToRegstr{
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    color: rgb(130, 54, 130);
+    cursor: pointer;
+}
+.submitButton{
+   
+    appearance: none;
+    background-color: #000000;
+    border: 0.2vw solid #1A1A1A;
+    border-radius: 1vw;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    /* display: inline-block; */
+    font-family: Roobert,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    font-size: 1.2vw;
+    font-weight: 600;
+    line-height: normal;
+    margin: 0;
+    min-height: 0.6w;
+    min-width: 0;
+    outline: none;
+    padding: 1.1vw 2vw;
+    text-align: center;
+    text-decoration: none;
+    transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: 25vw;
+    margin: 0.5vw;
+    will-change: transform;
+    margin-left: 3.2vw;
+    margin-bottom: 0.4vw;
+}
+
+
+.submitButton:disabled {
+    pointer-events: none;
+  }
+
+.submitButton:hover{
+    box-shadow: rgba(0, 0, 0, 0.25) 0 0.5vw 1vw;
+    transform: translateY(-0.1vw);
+
+}
+.submitButton:active {
+    box-shadow: none;
+    transform: translateY(0);
+  }
+
+
+.showPasswordBlock  {
+    /* width: 280px; */
+    /* height:280px; */
+    margin-left: 1vw;
+    cursor: pointer;
+}
+.image{
+    width: 1.5vw;
+    height: 1.5vw;
+    transition: 0.2s;
+
+}
+.image:hover{
+    width: 1.6vw;
+    height: 1.6vw;
+}
+
+
+  
