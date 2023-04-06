@@ -6,24 +6,38 @@ import CentralPage from './pages/CentralPage';
 import { Comments } from "./pages/Comments";
 import './App.css';
 import { Archieve } from './components/Archieve';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import RegistrationPage from "./pages/RegistrationPage";
+import axios from "axios";
 function App() {
-  
+
+  // юз эффект для получения изначальных данных из БД
+  useEffect(()=>{
+    getArticleArray();  
+  }, []);
   //// СТЕЙТЫ ДЛЯ АРХИВА
   const [archieveArr, setArchieveArr] = useState([]);
   const [lastDeleteArchiveObject, setlastDeleteArchiveObject] = useState("");
 
   //// СТЕЙТЫ ДЛЯ КОММЕНТАРИЕВ
+  
   const [atricleForComments, setAtricleForComments] = useState([]);
   const [backMainFromComment, setBackMainFromComments] = useState("");
-  // console.log(archieveArr);
+  // console.log(archieveArr);  
+  const getArticleArray = async() => {
+    
+    const userData = JSON.parse(localStorage.getItem('userData'));
+    const response = await axios.post("http://localhost:5000/auth/getArchieve", userData);
+    console.log(response.data.arhArticles);
+    setArchieveArr(response.data.arhArticles);
+  };  
  
   // ОБЪЕКТ ЮЗЕРА ПОЛУЧАЕМЫЙ ИЗ БД
   const [user, setUser] = useState({});
 
   //РАБОТА С АВТОРИЗАЦИЕЙ ЧЕРЕЗ ЛОКАЛ СТОРАДЖ  
   const userAcessLocalStorage = JSON.parse(localStorage.getItem('userAcess'));
+  
   
   // ПЕРЕМЕННАЯ ОТВЕЧАЮЩАЯ ЗА ДОСТУП К АККАУНТУ ИЗ РЕГИСТРАЦИИ
   const [boolVariable, setBoolVariable] = useState(userAcessLocalStorage); 

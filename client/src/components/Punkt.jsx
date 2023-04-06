@@ -2,12 +2,7 @@ import React, {useState} from "react";
 import './Punkt.css';
 import { Link } from "react-router-dom";
 const Punkt = (props) => {
-    // const openModalComment = () =>{
-    //     props.propsComentSet(true);
-      
-    //     const copyObj = {...props.propsObject};
-    //     props.propsindexCommentSet(props.propsObject.id);
-    // }
+    
     const openComment = () =>{
         props.setAtricleForComments(props.propsObject);
         props.setBackMainFromComments(props.adressToBackFromComments);

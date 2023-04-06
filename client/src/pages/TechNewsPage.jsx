@@ -22,7 +22,7 @@ function TechNewsPage(props) {
         
         setArticles(dannaie.data.articles.map((article, index) =>{
           
-            return {...article, id: index, comments: []};
+            return {...article, id: index};
           
         }));
         

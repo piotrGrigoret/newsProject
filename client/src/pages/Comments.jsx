@@ -2,10 +2,13 @@ import React from 'react';
 import { useState } from 'react';
 import './Comments.css';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 export const Comments = (props) => {
         
     const [articleMessages, setArticleMessages]  = useState(props.atricleForComments.comments);
-    // console.log(articleMessages);
+    console.log(articleMessages);
+
+    // const [atricleForComments, setAtricleForComments] = useState([]);
 
     const [objectCopy, setObjectcopy] = useState(
         {
@@ -28,7 +31,7 @@ export const Comments = (props) => {
         objCopy.messageText = event.target.value;
         setForArea(event.target.value);
         setObjectcopy(objCopy);
-    //    console.log(objCopy.messageText);
+       console.log(objCopy.messageText);
         if(objCopy.messageText.length > 0){
             setChangheSendButton(true);
         }else{
@@ -37,42 +40,43 @@ export const Comments = (props) => {
         }
     };
 
-    const sendMessageHandler = () => {
+    const sendMessageHandler = async() => {
  
-        if(objectCopy.messageText !== ""){
+        const response = await axios.post("http://localhost:5000/auth/comments");
 
-            const h = new Date().getHours();
-            const m = new Date().getMinutes();
-            const commentCopy = {...objectCopy, date: h + ":" + m};
-            const newArticle = {...articleMessages};
-            const copyNewArticle = {...newArticle, comments: [...newArticle.comments, commentCopy]};
+        // if(objectCopy.messageText !== ""){
 
-            setArticleMessages(copyNewArticle);
+        //     const h = new Date().getHours();
+        //     const m = new Date().getMinutes();
+        //     const commentCopy = {...objectCopy, date: h + ":" + m};
+        //     const newArticle = {...articleMessages};
+        //     const copyNewArticle = {...newArticle, comments: [...newArticle.comments, commentCopy]};
 
-            setObjectcopy({
-                username : "misterCrow21",
-                messageText: "",
-                foto : "/clearAvatar.png",
-                date : "",
-                id:Date.now().toString(),
-                classForKrestik : "ModalCommentkrestik"
+        //     setArticleMessages(copyNewArticle);
 
-            });
-            setForArea("");
+        //     setObjectcopy({
+        //         username : "misterCrow21",
+        //         messageText: "",
+        //         foto : "/clearAvatar.png",
+        //         date : "",
+        //         id:Date.now().toString(),
+        //         classForKrestik : "ModalCommentkrestik"
 
-            const mainArray = props.curentArray.map((curent)=>{
-                if(curent.id == props.commentIndex){
-                    console.log(";");
-                    return curent = {...copyNewArticle};
-                }
-                else{
-                    return curent;
-                }
-            });
-            props.curentArraySet(mainArray);
-            // console.log(props.curentArray);
+        //     });
+        //     setForArea("");
+
+        //     const mainArray = props.curentArray.map((curent)=>{
+        //         if(curent.id == props.commentIndex){
+        //             console.log(";");
+        //             return curent = {...copyNewArticle};
+        //         }
+        //         else{
+        //             return curent;
+        //         }
+        //     });
+        //     props.curentArraySet(mainArray);
             
-        };
+        // };
     };
    
     // const deleteMessageHandler = (comment) => {
@@ -128,7 +132,7 @@ export const Comments = (props) => {
             <div className="messageArea">
             </div>
             <div className="coomentInput"><textarea onChange={addMessageInfoHandler}  value={forArea} placeholder='Type comment...' name="" id="" cols="30" rows="10"></textarea></div>
-            <div className={changheSendButton ? "sendMessageComments" : "sendMessageCommentsDisable"} onKeyDown={test}><img  src="./send2.png" alt="" /></div>
+            <div className={changheSendButton ? "sendMessageComments" : "sendMessageCommentsDisable"} onClick={sendMessageHandler}><img  src="./send2.png" alt="" /></div>
 
 
     </div>

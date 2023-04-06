@@ -32,7 +32,7 @@ export const Archieve = (props) => {
                 :
               props.archieveArr.map((object)=> 
                     <Punkt 
-                      key = {object.id}
+                      key = {object._id}
                       propsObject = {object} 
                       krestik = "krestik"
                       propsComentSet = {props.comentSet}

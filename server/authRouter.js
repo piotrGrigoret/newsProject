@@ -10,6 +10,10 @@ router.post("/registration", [
     check('password', message = "Password cannot be less than 4 and more than 10 characters").isLength({min:4, max:10})  
 ], controller.registration);
 router.post("/login", controller.login);
+router.post("/addarchieve", controller.addarchieve);
+router.post("/getArchieve", controller.getArchieve);
+router.post("/comments", controller.comments);
+
 router.get("/users", authMiddleware, controller.getUsers);
 
 module.exports = router

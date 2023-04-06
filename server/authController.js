@@ -1,4 +1,5 @@
 const User = require("./models/User");
+const Article = require("./models/Article")
 const bcrypt = require('bcryptjs');
 const {validationResult} = require('express-validator');
 const jwt = require('jsonwebtoken');
@@ -47,7 +48,7 @@ class authController{
 
             const user = await User.findOne({username});
             if(!user){
-                return res.status(400).json({message:  `User ${username} is not exist`});// УЗНАТЬ МОЖНО ЛИ ЧИТАТЬ СООБЩЕНИЯ ИЗ СТАТУСА 400 И ПЕРЕДАВАТЬ ИХ ВО ФРОНТЕНД     
+                return res.status(400).json({message:  `User ${username} is not exist`});     
             }
             const validPassword = bcrypt.compareSync(password, user.password);
             if(!validPassword){
@@ -60,6 +61,41 @@ class authController{
             console.log(error);
             res.status(400).json({message: 'login Error'});
 
+        }
+    }
+    
+    async addarchieve (req, res){
+        
+            const {author, title, description, url, urlToImage, publishedAt, content, userId, privat} = req.body;
+            try {
+                const article = new Article({author, title, description, url, urlToImage, publishedAt, content, userId, privat});
+                await article.save();
+                console.log("article " + author + " save");
+                res.json({article});
+            } catch (error) {
+                console.log(error)
+            }
+        
+    }
+   
+    async getArchieve (req, res){
+        
+        try {
+            const userId = req.body._id;
+
+          const arhArticles = await Article.find({userId: userId});
+          console.log(arhArticles);
+            res.json({arhArticles});
+        } catch (error) {
+            console.log(error)
+        }
+    
+    }
+    async comments (req, res){
+        try {
+            console.log("hello");
+        } catch (error) {
+            console.log(error)
         }
     }
     async getUsers (req, res){

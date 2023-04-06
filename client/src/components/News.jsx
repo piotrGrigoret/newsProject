@@ -36,28 +36,21 @@ const News = (props) => {
     }
     const onAddToArchieveArticleHandler = async(propsObject) =>{
         // console.log(props.archieveArr);
-        // console.log(propsObject);
-        const copyObject = {...propsObject};
+
+        /// добавляем айди юзера в заррхивированный арликл
+        const userData = JSON.parse(localStorage.getItem('userData'));   
+        const userId = userData._id; 
+        const privat = true;
+        const copyObject = {...propsObject, userId, privat};
+        console.log(copyObject);
+    
         const copyArchieveArr = [...props.archieveArr, copyObject];
         
         props.setArchieveArr(copyArchieveArr);
         // proverkaDobavleniaVArhiv(propsObject);
-        const defaultUserObj = 
-        {
-            username: "user4",
-            password:"user4",
-            // name:"",
-            // phone:"",
-        }     
-        try {
-            const response = await axios.post("http://localhost:5000/auth/registration", defaultUserObj);
-            console.log(response);
-          } catch (error) {
-            console.error(error);
-          }
-
-    
-        // await axios.post("http://localhost:5000/test",{user: defaultUserObj} );//ПРОБЛЕМА В РОУТИНГЕ И В КОРС
+        
+        const response = await axios.post("http://localhost:5000/auth/addarchieve",copyObject);
+        // console.log(response);
         
 
     }
