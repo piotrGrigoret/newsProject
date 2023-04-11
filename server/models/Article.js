@@ -11,7 +11,8 @@ const Article = new Schema({
     url : {type: String,  required: true },
     urlToImage : {type: String,  required: true },
     userId : {type: String,  required: true },
-    privat : {type: String,  required: true} 
+    privat : {type: String,  required: true},
+    source: { type: Object, default: {}},
     // username : [{type: String, ref: 'Role'}],
 
 });

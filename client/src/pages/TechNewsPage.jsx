@@ -19,7 +19,7 @@ function TechNewsPage(props) {
   useEffect(()=>{
     const getData = async () => {
         const dannaie = await axios.get(`https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=f34b416e987b44b9849f7505c8a4782d`);
-        
+        // console.log(dannaie.data);
         setArticles(dannaie.data.articles.map((article, index) =>{
           
             return {...article, id: index};

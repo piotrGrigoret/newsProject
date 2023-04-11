@@ -68,11 +68,17 @@
     font-size: 1.3vw;
     resize: none;
     border:  0.1px;
-  background-color: rgb(241, 224, 224);   
+  background-color: rgb(214, 196, 196);   
     /* margin-bottom: 3vh; */
     /* border-radius: 10px; */
-    
+    border: 0.23vw solid #ccc;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;    
 }
+.coomentInput textarea:focus {
+    border: 0.23vw solid #555;
+  }
 
 
 

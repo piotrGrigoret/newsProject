@@ -11,9 +11,11 @@ router.post("/registration", [
 ], controller.registration);
 router.post("/login", controller.login);
 router.post("/addarchieve", controller.addarchieve);
+router.post("/deletearchieve", controller.deletearchieve);
 router.post("/getArchieve", controller.getArchieve);
 router.post("/comments", controller.comments);
-
-router.get("/users", authMiddleware, controller.getUsers);
-
+router.post("/changeUser", controller.changeUser);
+router.post("/getUser", controller.getUser);
+router.post("/deleteUser", controller.deleteUser);
+router.post("/newPassword", controller.newPassword);
 module.exports = router

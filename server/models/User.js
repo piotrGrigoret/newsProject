@@ -7,6 +7,8 @@ const User = new Schema({
     password : {type: String,  required: true},
     nickname :{type: String,  required: true },
     // username : [{type: String, ref: 'Role'}],
+    image:  {type: String, required:true},
+    date:   {type: Date, default: Date.now},
 
 });
 

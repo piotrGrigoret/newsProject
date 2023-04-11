@@ -9,12 +9,15 @@ const Registration = (props) => {
             username: "",
             password:"",
             nickname:"",
+            image:"/defaultUser.png",
+            date: new Date(),
             // foto:"/"         //НЕ ЗНАЮ КАК ХРАНИТЬ ФОТОГРАФИИ В БАЗЕ ДАННЫХ - НАДО УЗНАТЬ
             // phone:"",
         }     
     
-    // console.log(defaultUserObj); 
     const [userObj, setUserObj] = useState(defaultUserObj);
+    // console.log(userObj); 
+
     const [values1, setValues1] = useState("");
     const [values2, setValues2] = useState("");
     const [values3, setValues3] = useState("");
@@ -127,6 +130,7 @@ const Registration = (props) => {
                 localStorage.setItem('userData', JSON.stringify(response.data.user));
                 props.setBoolVariable(true);        
                 props.setUser(response.data.user);
+                window.location.reload()
             }
         } catch (error) {
             console.error(error);

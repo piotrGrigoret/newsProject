@@ -1,21 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './Archieve.css';
 import Punkt from './Punkt';
 import Button from './Button';
+import axios from 'axios';
+
 export const Archieve = (props) => {
 
   // console.log(props.archieveArr);
-
-    const onDeleteArchiveArticleHandler = (propsObject) => {
-        let copyArchieveArr = props.archieveArr.filter((arr) => {
-            if(arr.id !== propsObject.id){
+ 
+    const onDeleteArchiveArticleHandler = async(propsObject) => {
+      // console.log(propsObject);  
+      let copyArchieveArr = props.archieveArr.filter((arr) => {
+            if(arr._id !== propsObject._id){
                 return arr
             }   
         });
-        console.log(copyArchieveArr);
+        // console.log(copyArchieveArr);
         props.setArchieveArr(copyArchieveArr);
         props.setlastDeleteArchiveObject(propsObject);
-
+        const response = await axios.post("http://localhost:5000/auth/deletearchieve", propsObject);
+        console.log(response);
       }
   return (
       <div className="AppArchieve">

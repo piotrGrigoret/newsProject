@@ -26,9 +26,9 @@ const Punkt = (props) => {
                         <div  className="krestik"><img onClick={() => props.onDeleteArchiveArticleHandler(props.propsObject) } title = "delete from archive" src="./trash.png" alt="" /></div>
                             :
                         !props.propsObject.galka ?
-                        <div  className="pliusik"><img onClick={() => props.addArchieve(props.propsObject) } title = "add to archive" src="./add.png" alt="" /></div>
+                        <div  className = "pliusik"><img onClick={() => props.addArchieve(props.propsObject) } title = "add to archive" src="./add.png" alt="" /></div>
                         :
-                        <div  className="galka"><img title = "added" src="./galka2.png" alt="" /></div>                         
+                        <div  className = "galka"><img title = "added" src="./galka2.png" alt="" /></div>                         
                     }
                     <div  className="comment"><Link to={"/comments"}> <img title="comments" onClick={openComment} src="./comment3.png" alt="" /> </Link></div>
 

@@ -1,20 +1,33 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from './components/Layout';
+
 import TechNewsPage from './pages/TechNewsPage';
 import BusinessNewsPage from './pages/BusinessNewsPage';
 import CentralPage from './pages/CentralPage';
 import { Comments } from "./pages/Comments";
-import './App.css';
 import { Archieve } from './components/Archieve';
-import React, { useEffect, useState } from 'react';
 import RegistrationPage from "./pages/RegistrationPage";
-import axios from "axios";
-function App() {
+import Profile from './components/Profile';
+import Password from './components/Password';
 
+import React, { useEffect, useState } from 'react';
+import axios from "axios";
+import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+function App() {
+  
   // юз эффект для получения изначальных данных из БД
   useEffect(()=>{
     getArticleArray();  
+    getUser();
   }, []);
+  const getUser = async() => {
+      const userData = JSON.parse(localStorage.getItem('userData'));
+      const response = await axios.post("http://localhost:5000/auth/getUser", userData);
+      // console.log(response.data.responseUser[0]);
+      localStorage.setItem('userData', JSON.stringify(response.data.responseUser[0]));
+      
+  }
   //// СТЕЙТЫ ДЛЯ АРХИВА
   const [archieveArr, setArchieveArr] = useState([]);
   const [lastDeleteArchiveObject, setlastDeleteArchiveObject] = useState("");
@@ -24,14 +37,18 @@ function App() {
   const [atricleForComments, setAtricleForComments] = useState([]);
   const [backMainFromComment, setBackMainFromComments] = useState("");
   // console.log(archieveArr);  
+  
+
   const getArticleArray = async() => {
-    
     const userData = JSON.parse(localStorage.getItem('userData'));
+      // console.log(userData);
+        
     const response = await axios.post("http://localhost:5000/auth/getArchieve", userData);
-    console.log(response.data.arhArticles);
+    // console.log(response.data.arhArticles);
     setArchieveArr(response.data.arhArticles);
   };  
  
+  
   // ОБЪЕКТ ЮЗЕРА ПОЛУЧАЕМЫЙ ИЗ БД
   const [user, setUser] = useState({});
 
@@ -62,12 +79,27 @@ function App() {
                   />}
                 />
                 : */}
-                <Route path="/" 
-                element={
-                <Layout 
+                
+                <Route path="options/profile" element = {
+                  <Profile
                     setBoolVariable = {setBoolVariable}
-                    user = {user}
-                />}>
+                    archieveArr = {archieveArr}
+                  />
+                }/>
+
+                <Route path="options/password" element = {
+                  <Password
+                  setBoolVariable = {setBoolVariable}
+
+                  />
+                }/>
+
+                <Route path="/" 
+                  element={
+                    <Layout 
+                      setBoolVariable = {setBoolVariable}
+                      user = {user}
+                    />}>
                     <Route path = "/" element = {<CentralPage setArchieveArr = {setArchieveArr} />} />
                     <Route path = "businessNews" element = {
                       <BusinessNewsPage 
@@ -98,6 +130,7 @@ function App() {
                         atricleForComments = {atricleForComments}
                         backMainFromComment = {backMainFromComment}
                       />}/>
+                      
                   </Route>
               {/* } */}
             </Routes>

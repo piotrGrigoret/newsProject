@@ -4,13 +4,8 @@ import NewsItem from "./NewsItem";
 import { Link } from "react-router-dom";
 const Layout = (props) => {
     const userData = JSON.parse(localStorage.getItem('userData'));   // НЕ УВЕРЕН УЗНАТЬ ПО ПОВОДУ ЭТОГО - НЕ ЗНАЮ РАЗУМНО ЛИ  ХРАНИТЬ ДАННЫЕ ПОЛЬЗОВАТЕЛЯ В ЛОКАЛсторадж
+    
     // console.log(userData);
-    const testExit = () => {
-      props.setBoolVariable(false);
-      localStorage.setItem('userAcess', false);
-      localStorage.setItem('userData', JSON.stringify({}));
-
-    }
 
     return (
       <div>
@@ -29,18 +24,18 @@ const Layout = (props) => {
                 <div className="userBox">
                     
                     <div className="accauntInfo">
-                      <img title="profile image" src="/defaultUser.png" alt="" />
+                      <img title="profile image" src={userData.image} alt="" />
                       <div className="usernameBox">
                         <div className="nickName">{userData.nickname}</div>
                         <div className="username">{userData.username}</div>
                       </div>
                       {/* <div>Exit</div> */}
                     </div> 
-                 {/* <Link to="/" style={{ textDecoration: 'none' }}>               */}
+                  <Link to="/options/profile" style={{ textDecoration: 'none' }}>              
                     <div className="dropdown-content">
-                        <p onClick={testExit}>Options</p>
+                        <p>Options</p>
                     </div>
-                  {/* </Link> */}
+                  </Link>
                 </div>
         </div>
             
