@@ -18,7 +18,7 @@ function App() {
   
   // юз эффект для получения изначальных данных из БД
   useEffect(()=>{
-    getArticleArray();  
+    getArticleArray();
     getUser();
   }, []);
   const getUser = async() => {
@@ -29,23 +29,38 @@ function App() {
       
   }
   //// СТЕЙТЫ ДЛЯ АРХИВА
-  const [archieveArr, setArchieveArr] = useState([]);
+  const [privateArchieve, setPrivateArhieve] = useState([]);//стейт для определния изначального массива архива для дальнейших вычислении
+  const [publicArhieve, setPublicArchieve] = useState([]); // стейт для определения публичного архива
   const [lastDeleteArchiveObject, setlastDeleteArchiveObject] = useState("");
-
-  //// СТЕЙТЫ ДЛЯ КОММЕНТАРИЕВ
+  // console.log(privateArchieve);
+  //// СТЕЙТЫ ДЛЯ СТАТИЧТИКИ
+  const [techArticlesPublic, setTechArticlesPublic] = useState([]);//стейты для статистики количества тех... и биз... артиклов          
+  const [techArticlesPrivate, setTechArticlesPrivate] = useState([]);//стейты для статистики количества тех... и биз... артиклов          
   
+  //// СТЕЙТЫ ДЛЯ КОММЕНТАРИЕВ
   const [atricleForComments, setAtricleForComments] = useState([]);
   const [backMainFromComment, setBackMainFromComments] = useState("");
-  // console.log(archieveArr);  
+  // console.log(atricleForComments);  
   
 
   const getArticleArray = async() => {
-    const userData = JSON.parse(localStorage.getItem('userData'));
-      // console.log(userData);
-        
-    const response = await axios.post("http://localhost:5000/auth/getArchieve", userData);
-    // console.log(response.data.arhArticles);
-    setArchieveArr(response.data.arhArticles);
+        const userData = JSON.parse(localStorage.getItem('userData'));
+          // console.log(userData);
+            
+        const response = await axios.post("http://localhost:5000/auth/getArchieve", userData);
+        setPrivateArhieve(response.data.articlesPrivat);
+        setPublicArchieve(response.data.articlesPublic);
+        /// для статистики
+        setTechArticlesPublic(response.data.articlesPublic.filter((arr)=>{
+          if(arr.source.name === "TechCrunch" && arr.privat == "false"){
+              return arr
+          }        
+        }));
+        setTechArticlesPrivate(response.data.articlesPrivat.filter((arr)=>{
+          if(arr.source.name === "TechCrunch" && arr.privat == "true"){
+              return arr
+          }        
+        }));
   };  
  
   
@@ -83,7 +98,11 @@ function App() {
                 <Route path="options/profile" element = {
                   <Profile
                     setBoolVariable = {setBoolVariable}
-                    archieveArr = {archieveArr}
+                    // archieveArr = {archieveArr}
+                    techArticlesPublic = {techArticlesPublic}
+                    techArticlesPrivate = {techArticlesPrivate}
+                    privateArchieve = {privateArchieve}
+                    publicArhieve = {publicArhieve}
                   />
                 }/>
 
@@ -93,43 +112,59 @@ function App() {
 
                   />
                 }/>
-
+                  <Route path="comments" element = {
+                      <Comments 
+                        // archieveArr = {archieveArr}
+                        publicArhieve = {publicArhieve}
+                        atricleForComments = {atricleForComments}
+                        setAtricleForComments = {setAtricleForComments}
+                        backMainFromComment = {backMainFromComment}
+                       
+                      />}/>
                 <Route path="/" 
                   element={
                     <Layout 
                       setBoolVariable = {setBoolVariable}
                       user = {user}
                     />}>
-                    <Route path = "/" element = {<CentralPage setArchieveArr = {setArchieveArr} />} />
+                    <Route path = "/" element = {<CentralPage/>} />
                     <Route path = "businessNews" element = {
                       <BusinessNewsPage 
-                        setArchieveArr = {setArchieveArr} 
-                        archieveArr = {archieveArr}
+                        // setArchieveArr = {setArchieveArr} 
+                        // archieveArr = {archieveArr}
+                        privateArchieve = {privateArchieve} 
+                        setPrivateArhieve = {setPrivateArhieve}
                         setAtricleForComments = {setAtricleForComments}
                         setBackMainFromComments = {setBackMainFromComments}
                       />} />
                     <Route path = "techNews" element = {
                       <TechNewsPage 
-                        setArchieveArr = {setArchieveArr} 
-                        archieveArr = {archieveArr}
+                        // setArchieveArr = {setArchieveArr} 
+                        // archieveArr = {archieveArr}
                         setAtricleForComments = {setAtricleForComments}
+                        privateArchieve = {privateArchieve}  
+                        setPrivateArhieve = {setPrivateArhieve}
                         setBackMainFromComments = {setBackMainFromComments}
                       />} />
                     <Route path= "archieve" element = {
                       <Archieve 
-                        setArchieveArr = {setArchieveArr} 
-                        archieveArr = {archieveArr}
+                        // setArchieveArr = {setArchieveArr} 
+                        // archieveArr = {archieveArr}
                         lastDeleteArchiveObject={lastDeleteArchiveObject}
                         setlastDeleteArchiveObject = {setlastDeleteArchiveObject}
                         setAtricleForComments = {setAtricleForComments}
                         setBackMainFromComments = {setBackMainFromComments}
+                        privateArchieve = {privateArchieve} 
+                        setPrivateArhieve = {setPrivateArhieve}
+                        publicArhieve = {publicArhieve}
+                        setPublicArchieve = {setPublicArchieve}
                         />
                       }/>
-                    <Route path="comments" element = {
+                    {/* <Route path="comments" element = {
                       <Comments 
                         atricleForComments = {atricleForComments}
                         backMainFromComment = {backMainFromComment}
-                      />}/>
+                      />}/> */}
                       
                   </Route>
               {/* } */}

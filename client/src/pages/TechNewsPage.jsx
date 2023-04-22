@@ -22,7 +22,7 @@ function TechNewsPage(props) {
         // console.log(dannaie.data);
         setArticles(dannaie.data.articles.map((article, index) =>{
           
-            return {...article, id: index};
+            return {...article, id: index, deleteFromPrivate: "false"};
           
         }));
         
@@ -32,7 +32,7 @@ function TechNewsPage(props) {
 
 
 
-  
+
    return (
     <div className="App">
       {/* <div className="goToArchieve"><Link className="linkArchieve" to = "/archieve" lig = {"gr"}><img title = "open archive" src="./arh.png" alt="" /></Link></div> */}
@@ -43,9 +43,9 @@ function TechNewsPage(props) {
         curentArraySet = {setArticles}
         comentSet = {setModalComnetSetting}
         indexCommentSet = {setIndexComment}
-        setArchieveArr = {props.setArchieveArr}
-        archieveArr = {props.archieveArr}
         setAtricleForComments = {props.setAtricleForComments}
+        privateArchieve = {props.privateArchieve}
+        setPrivateArhieve = {props.setPrivateArhieve}
         setBackMainFromComments = {props.setBackMainFromComments}
         adressToBackFromComments = {"techNews"}
 

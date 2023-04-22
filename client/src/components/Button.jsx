@@ -4,13 +4,14 @@ import axios from "axios";
 const Button = (props) => {
     const returnObject = async() => {
         const copyLastDeleteObject = {...props.lastDeleteArchiveObject};
-        // console.log(copyLastDeleteObject);
+        console.log(copyLastDeleteObject);
         const copyArchiveArr = [copyLastDeleteObject, ...props.archieveArr];
-        // console.log(copyArchiveArr);
+        console.log(copyArchiveArr);
         props.setArchieveArr(copyArchiveArr);
         props.setlastDeleteArchiveObject("");
-        const response = await axios.post("http://localhost:5000/auth/addarchieve", copyLastDeleteObject);
+        window.location.reload();   
 
+        const response = await axios.post("http://localhost:5000/auth/restoreArchieve", copyLastDeleteObject);
     }
     // console.log(props.lastDeleteArchiveObject);
     return (

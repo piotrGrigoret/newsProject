@@ -3,16 +3,16 @@ const {Schema, model} = require('mongoose');
 
 const Article = new Schema({
 
-    author : {type: String,  required: true},
-    content : {type: String,  required: true},
-    description : {type: String,  required: true },
+    author : {type: String,  default: ""},
+    content : {type: String,  default: ""},
+    description : {type: String,  default:"" },
     publishedAt : {type: String,  required: true },
     title : {type: String,  required: true },
     url : {type: String,  required: true },
-    urlToImage : {type: String,  required: true },
-    userId : {type: String,  required: true },
-    privat : {type: String,  required: true},
+    urlToImage : {type: String,  default: "" },
     source: { type: Object, default: {}},
+    public: { type: Boolean, default: false},
+
     // username : [{type: String, ref: 'Role'}],
 
 });

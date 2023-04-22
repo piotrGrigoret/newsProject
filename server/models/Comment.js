@@ -2,13 +2,12 @@ const {Schema, model} = require('mongoose');
 
 
 const Comment = new Schema({
-
-    username : {type: String, unique: true, required: true},
-    nickname :{type: String,  required: true },    
+    nickname:{type: String,  required: true},        
     text : {type: String,  required: true },
     userId: {type: String,  required: true},
-    // username : [{type: String, ref: 'Role'}],
-
+    articleId:{type: String,  required: true},
+    date:   {type: Date, default: Date.now},
+    image:  {type: String, required:true},
 });
 
 module.exports = model('Comment', Comment);

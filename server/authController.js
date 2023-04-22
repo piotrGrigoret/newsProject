@@ -1,5 +1,8 @@
 const User = require("./models/User");
-const Article = require("./models/Article")
+const Article = require("./models/Article");
+const Comment = require("./models/Comment");
+const UserArticle = require("./models/UserArticle"); 
+
 const bcrypt = require('bcryptjs');
 const {validationResult} = require('express-validator');
 const jwt = require('jsonwebtoken');
@@ -27,6 +30,7 @@ class authController{
             }
             const {username, password, nickname, image, date} = req.body;
             const candidate = await User.findOne({username});
+            console.log(candidate);
             if(candidate){
                 
                 return res.status(400).json({message: "a user with the same name already exists"});     
@@ -69,10 +73,11 @@ class authController{
             const user = req.body;
             // console.log(user);
             const candidate = await User.findOne({username: user.username});
-            // console.log(candidate);
             if(candidate){
-                console.log("a user with the same username already exists");
-                return res.status(400).json({message: "a user with the same username already exists"});     
+                if(candidate._id.toString() !== user._id){
+                    console.log("a user with the same username already exists");
+                    return res.status(400).json({message: "a user with the same username already exists"});     
+                }
             }
             else{
                 await User.findByIdAndUpdate(
@@ -97,7 +102,7 @@ class authController{
         const userId = req.body._id;
         // console.log(userId);
            const responseUser = await User.find({_id:userId});
-        //    console.log(responseUser);                 /// НЕ ВОЗВРАЩАЕТ
+        //    console.log(responseUser);                 
             res.json({responseUser});
         } catch (error) {
             res.send(error);
@@ -124,8 +129,14 @@ class authController{
             const {newPassword, confirm}  = req.body.newPassword;
             const userId = req.body.userDataObj._id;
             const user = await User.findOne({username});
-            const validPassword = bcrypt.compareSync(password, user.password);
+            
+            if(newPassword.length < 4 || newPassword.length > 10 || newPassword === ""){
+                return res.status(400).json({message:  "Password cannot be less than 4 and more than 10 characters"});
+                console.lo
 
+
+            }
+            const validPassword = bcrypt.compareSync(password, user.password);
             if(!validPassword){
                 return res.status(400).json({message:  "Wrong password entered"});     
             }
@@ -147,61 +158,177 @@ class authController{
             console.log(error);
         }
     }
-    async addarchieve (req, res){
-        
-            const {author, title, description, url, urlToImage, publishedAt, content, userId, privat, source} = req.body;
-            try {
-                const article = new Article({author, title, description, url, urlToImage, publishedAt, content, userId, privat, source});
-                const isArticleCopy = Article.find(title);
-                if(isArticleCopy.title == article.title){
-                    console.log("repeat article");
-                }else{
-                    await article.save();
-                    console.log("article " + author + " save");
-                    res.json({article});
-                }
-            } catch (error) {
-                console.log(error)
-            }
-        
-    }
-    async deletearchieve (req, res){
-        
-        try {
-            const {_id} = req.body;
-            Article.findByIdAndDelete(_id)      ///узнать почему колбэки не работают тут  
-            .then((doc) => {
-              console.log("article " + " delete");
-            })
-            .catch((err) => {
-              console.error(err);
-            });         
-        } catch (error) {
-            console.log(error);
-        }
-    }
+
+
+    // РАБОТА С  АРХИВОМ
+
+
     async getArchieve (req, res){
         
         try {
             const userId = req.body._id;
 
-          const arhArticles = await Article.find({userId: userId});
-        //   console.log(arhArticles);
-            res.json({arhArticles});
+            const userArticle = await UserArticle.find({userId});
+            const ids = userArticle.map(obj => obj.articleId);
+            
+           
+            const articlesPublic =  await Article.find({public: true});
+            // console.log(articlesPublic)
+           
+            const articlesPrivat = [];
+            for (let id of ids) {
+                const article = await Article.findById(id);
+                articlesPrivat.push(article);
+            }
+            // console.log(articlesPrivat);
+            res.json({articlesPrivat, articlesPublic});
         } catch (error) {
             console.log(error)
         }
     
     }
-    
-    async comments (req, res){
+    // async checkDeletePrivateArhieve(req, res){
+    //     try {
+    //         const articleDate = req.body.publishedAt;
+    //         const checkObject = await Article.find({publishedAt:articleDate})            //Я  ПРОВЕРЯЮ ЕСТЬ ЛИ ОБЪЕКТ В БД И ЕСЛИ ДА ТО  Я ПРОСТО МЕНЯЮ ЕМУ ЗНАЧЕНИЕ   
+    //         // const checkObject1 = await Article.find(articleContent)               
+    //         if(checkObject){
+    //             console.log("there is already such an object in the database :" + req.body.author);
+    //         }
+    //         res.json({checkObject});
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
+
+    async addarchieve (req, res){
+        
+            try {
+                const {author, title, description, url, urlToImage, publishedAt, content, userId, source} = req.body;
+                const isObjectInDB = await Article.findOne({publishedAt});
+                
+                if(isObjectInDB){
+                    console.log("object is in db repeat");
+                    const userArticle = new UserArticle({userId, articleId: isObjectInDB._id});
+                
+                    console.log("object was added in private archieve");
+                    await userArticle.save();
+
+                }else{
+                    const article = new Article({author, title, description, url, urlToImage, publishedAt, content , source});
+                    
+                    const userArticle = new UserArticle({userId, articleId: article._id});
+                    await article.save();
+                    await userArticle.save();
+                    console.log("UserArticle: userID = " + userArticle.userId + ", articleID = " + userArticle._id + " save");
+                    console.log("article " + author + " save");
+                    res.json({article});
+                
+                }
+                
+            } catch (error) {
+                console.log(error)
+            }
+    }
+ 
+    async deletearchieve (req, res){
+        // временно поменяю - всё работает
+
+        // try {
+        //     const {_id} = req.body;
+        //     Article.findByIdAndDelete(_id)        
+        //     .then((doc) => {
+        //       console.log("article " + " delete");
+        //     })
+            // .catch((err) => {
+            //   console.error(err);
+            // });                                                       
+        // } catch (error) {
+        //     console.log(error);
+        // }
+        
         try {
-            console.log("hello");
+            const userId = req.body.userData._id;
+            const articleId = req.body.propsObject._id;
+            const isObjectinPublicArchieve = await Article.findOne({articleId})
+            if(isObjectinPublicArchieve){
+                console.log("_id: " + articleId + "= object already have in public archieve");
+                
+                const userArticle = await UserArticle.findOneAndDelete({articleId, userId});
+
+                console.log(userArticle._id);
+                console.log("archieve was deleted from privat archieve PRIVAT LIST");
+            }else{
+                console.log("_id: " + articleId + " = archieve already have not in public archieve");
+
+                const userArticle = await UserArticle.findOneAndDelete({articleId, userId});
+                const article = await Article.findOneAndDelete(articleId);   
+                console.log(" archieve was deleted from  archieve AT ALL");
+                
+            }
+             
         } catch (error) {
-            console.log(error)
-        }
+            console.log(error);
+        }           
     }
    
+    
+    // Работа с комментарияи
+    async comments (req, res){
+        try {
+            const {nickname, userId, image, articleId, text, date} = req.body.copyMessage;
+            const {author, title, description, url, urlToImage, publishedAt, content,  privat, source, deleteFromPrivate } = req.body.currentСomment;
+
+            const checkObjectInDB = await Article.findOne({title});
+            console.log(checkObjectInDB);
+
+            if(articleId ){
+                console.log("******************************");
+                const comment = new Comment({nickname, userId, image, articleId, text, date});
+            
+                await  Article.findByIdAndUpdate(
+                    {_id: articleId},
+                    {public: true},
+                );
+                console.log("You save comment in exist object:  '" + comment.text +"', " + "save in" + " _id: '" + checkObjectInDB._id + "'" );
+                comment.save();
+    
+            }  
+            else{
+                
+                const {author, title, description, url, urlToImage, publishedAt, content, userId, privat, source, deleteFromPrivate } = req.body.currentСomment;
+                const article = new Article({author, title, description, url, urlToImage, publishedAt, content, userId,  source, public:true});
+                
+                await article.save();
+                console.log("article " + author + " save");
+                res.json({article});
+            
+                const comment = new Comment({nickname, userId, image, articleId: article._id, text, date});
+
+                console.log("'" + comment.text +"'" + " save in new object" + " _id:" + article._id);
+                comment.save();
+
+            }
+            
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    
+    async getComments (req, res){
+        const id = req.body._id;
+        try {
+
+            const comments =  await Comment.find({articleId: id});
+            // console.log(comments);
+            res.json({comments});
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+      
     
 }
 

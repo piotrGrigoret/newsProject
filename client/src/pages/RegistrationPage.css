@@ -1,22 +1,25 @@
 .container{
     width: 33vw;
     height: 26vw;
-    border: solid;
     display: grid;
+    border: 0.39vw solid #ccc;
+
     grid-template-columns: auto;
     margin-left: 35%;
     border-radius: 3vw;
     margin-top: 10%;
 }
 .container2{
+
     width: 33vw;
     height: 32vw;
-    border: solid;
     display: grid;
     grid-template-columns: auto;
     margin-left: 35%;
     border-radius: 3vw;
     margin-top: 5%;
+    border: 0.39vw solid #ccc;
+
 }
 .errorBox{
     background-color: rgb(197, 57, 57);
@@ -54,7 +57,6 @@
     width: 25vw;
     height: 4vw;
     border-radius: 1vw;
-    border: solid rgb(113, 107, 107) 0.1vw;
     margin-left: 3vw;
     margin-bottom: 0.3vw;
     /* background-color: rgb(156, 149, 139); */

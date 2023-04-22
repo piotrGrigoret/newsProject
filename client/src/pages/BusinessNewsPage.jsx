@@ -20,7 +20,7 @@ function BusinessNewsPage(props) {
         // console.log(dannaie.data);    
         setArticles(dannaie.data.articles.map((article, index) =>{
           
-            return {...article, id: index};
+            return {...article, id: index, deleteFromPrivate: "false"};
           
         }));
       
@@ -28,7 +28,6 @@ function BusinessNewsPage(props) {
       }
     getData();
    },[]);
-
 
    return (
     <div className="App">
@@ -38,9 +37,9 @@ function BusinessNewsPage(props) {
         curentArraySet = {setArticles}
         comentSet = {setModalComnetSetting}
         indexCommentSet = {setIndexComment}
-        setArchieveArr = {props.setArchieveArr}
-        archieveArr = {props.archieveArr}
         setAtricleForComments = {props.setAtricleForComments}
+        privateArchieve = {props.privateArchieve}
+        setPrivateArhieve = {props.setPrivateArhieve}
         setBackMainFromComments = {props.setBackMainFromComments}
         adressToBackFromComments = {"businessNews"}
         /> 

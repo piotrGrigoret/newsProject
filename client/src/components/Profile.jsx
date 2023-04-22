@@ -7,20 +7,9 @@ const Profile = (props) => {
     const userData = JSON.parse(localStorage.getItem('userData'));//данные о юзере из локалСторадж   
     const [userDataObj, setUserDataObj] = useState(userData);
 
-    useEffect(() =>{
-        // console.log(props.archieveArr);
-
-        const tech = props.archieveArr.filter((arr)=>{
-            if(arr.source.name === "TechCrunch"){
-                return arr
-            }        
-        })
-        // console.log(tech);
-        setTechArticles(tech);
-
-    }, [])
-    const [techArticles, setTechArticles] = useState([]);           //стейты для статистики количества тех... и биз... артиклов
-    // console.log(techArticles);
+    
+    
+    // console.log(techArticles.length);
     const logOutHandler = () => {                           // функция для выхода из профиля
         props.setBoolVariable(false);
         localStorage.setItem('userAcess', false);
@@ -77,6 +66,49 @@ const Profile = (props) => {
     const deleteAccountHandler = () => {
         setDeleteModalAttentionCard(true);
     }
+
+
+
+    // фотографии
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [previewSource, setPreviewSource] = useState(null);
+  
+    const handleFileInputChange = (event) => {
+      const file = event.target.files[0];
+      setSelectedFile(file);
+      previewFile(file);
+      if(file){
+        setFotoPlatform(false);
+      }
+    };
+  
+    const handleSubmit = (event) => {
+      event.preventDefault();
+      // Do something with the selected file
+    };
+  
+    const previewFile = (file) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setPreviewSource(reader.result);
+      };
+    };
+
+    //изменение платформы для фото
+    const [fotoPlatform, setFotoPlatform] = useState(false);
+    const changeFotoHandler = () => {
+        if(fotoPlatform == true){
+            setFotoPlatform(false);    
+            
+        }
+        else{
+            setFotoPlatform(true);
+        }
+    }
+
+
+    console.log(props.privateArchieve);
     return (
     <div className='optionsBox'>
         {deleteModalAttentionCard &&
@@ -88,7 +120,7 @@ const Profile = (props) => {
             />
         }
         <div className="sidenav">
-                <Link to="/" style={{ textDecoration: 'none' }}><div  className='back'>🠔</div></Link>
+                <Link to="/" style={{ textDecoration: 'none' }}><div  className='backSettings'>🠔</div></Link>
                 <div> Profile</div>
                 <Link to="/options/password" style={{ textDecoration: 'none' }}><div> Password</div></Link>
                 <div onClick={logOutHandler}>  Log Out </div>       
@@ -99,9 +131,28 @@ const Profile = (props) => {
             
             <div className='profileBox'>
                 <div className='imageBox'>
-                    <img src={userData.image} alt="" />
-                    <div className='changheFoto'>Changhe Foto</div>
-                </div>   
+                    {fotoPlatform 
+                        ?
+                            <label for="images" class="drop-container">
+                                <span class="drop-title">Drop files here</span>
+                                or
+                                <input id= "inputTag" type="file" placeholder='Change Foto' onChange={handleFileInputChange} />
+                            </label>
+                            
+                        :
+                            <>
+                                {previewSource 
+                                        ?
+                                        
+                                        <img src={previewSource} alt=""  />
+                                        :
+                                        <img src={userData.image} alt="" />
+                                }
+                            </>
+                    }
+
+                    {!fotoPlatform && <div className='changheFoto' onClick={changeFotoHandler}>Change Foto</div>}
+                </div>
                 <div className='infoAboutBox'>
                    {menuOption == "0" &&
                     <div>
@@ -133,18 +184,37 @@ const Profile = (props) => {
 
                         <div className='profileStatisticsBox'>
                             <div className='exitInMenuOptionImage' onClick={() => chooseMenuOptionHandler("0")}><img src="/exitLeft.png" alt="" /></div>
+
                             <div className='statistics'>
-                               
-                                <div className='statNumber'>{props.archieveArr.length}</div>
-                                <div className='statNumber'>{techArticles.length}</div>
-                                <div className='statNumber'>{props.archieveArr.length - techArticles.length}</div>
+                                <div className='typeOfArchieve' title='Privat Articles'>Priv:</div>
+                                <div className='statNumber'>{props.privateArchieve.length}</div>
+                                <div className='statNumber'>{props.techArticlesPrivate.length}</div>
+                                <div className='statNumber'>{props.privateArchieve.length - props.techArticlesPrivate.length}</div>
                                 <div className='statNumber'>0</div>
-                                <div className='statTitle'title='Articles in Archieve'> Articles </div>
-                                <div className='statTitle' title='Technology articles in archieve'> Technologies </div>
-                                <div className='statTitle' title='Business articles in archieve'> Business </div>
-                                <div className='statTitle' title='All Comentaries'>Comentaries</div>
+                                <div className='typeOfArchieve' title='Public Articles'>Pub:</div>
+                                <div className='statNumber'>{props.publicArhieve.length}</div>
+                               <div className='statNumber'>{props.techArticlesPrivate.length}</div>
+                               <div className='statNumber'>{props.publicArhieve.length - props.techArticlesPrivate.length}</div>
+                               <div className='statNumber'>0</div>
+                               <div></div>
+                                <div className='statTitle'title='Articles in Archieve'> Art </div> 
+                                <div className='statTitle' title='Technology articles in archieve'> Tech </div> 
+                                <div className='statTitle' title='Business articles in archieve'> Bus </div> 
+                                <div className='statTitle' title='All Comentaries'>Com</div> 
 
                             </div>
+
+                            <div className='statistics'>
+                               {/* <div className='statNumber'>{props.archieveArr.length}</div>
+                               <div className='statNumber'>{props.techArticles.length}</div>
+                               <div className='statNumber'>{props.archieveArr.length - props.techArticles.length}</div>
+                               <div className='statNumber'>0</div> */}
+                               {/* <div className='statTitle'title='Articles in Archieve'> Articles </div>
+                               <div className='statTitle' title='Technology articles in archieve'> Technologies </div>
+                               <div className='statTitle' title='Business articles in archieve'> Business </div>
+                               <div className='statTitle' title='All Comentaries'>Comentaries</div> */}
+
+                           </div>
                         </div>
                     }
                     {menuOption == "3" &&

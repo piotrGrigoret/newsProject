@@ -10,12 +10,18 @@ router.post("/registration", [
     check('password', message = "Password cannot be less than 4 and more than 10 characters").isLength({min:4, max:10})  
 ], controller.registration);
 router.post("/login", controller.login);
+router.post("/newPassword", controller.newPassword);
+
+router.post("/getUser", controller.getUser);
+router.post("/changeUser", controller.changeUser);
+router.post("/deleteUser", controller.deleteUser);
+
+router.post("/getArchieve", controller.getArchieve);
 router.post("/addarchieve", controller.addarchieve);
 router.post("/deletearchieve", controller.deletearchieve);
-router.post("/getArchieve", controller.getArchieve);
+// router.post("/checkDeletePrivateArhieve", controller.checkDeletePrivateArhieve);
+
 router.post("/comments", controller.comments);
-router.post("/changeUser", controller.changeUser);
-router.post("/getUser", controller.getUser);
-router.post("/deleteUser", controller.deleteUser);
-router.post("/newPassword", controller.newPassword);
+router.post("/getComments", controller.getComments);
+
 module.exports = router

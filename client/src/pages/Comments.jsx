@@ -1,38 +1,63 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import './Comments.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import moment from 'moment';
+
 export const Comments = (props) => {
-        
-    const [articleMessages, setArticleMessages]  = useState(props.atricleForComments.comments);
-    console.log(articleMessages);
+    
+    const currentСomment = JSON.parse(localStorage.getItem('currentComment'));
+    const userData = JSON.parse(localStorage.getItem('userData'));
+
+    const [discutionPublicArchiveArticle, setDiscutionPublicArchiveArticle] = useState(props.publicArhieve);
+    // console.log(discutionPublicArchiveArticle);
+    useEffect(() => {
+        getArticleComments();
+        setDiscutionPublicArchiveArticle(props.publicArhieve);
+      }, [props.publicArhieve]);
+    
+  
+    // функция для вызова кометариев из БД
+    const getArticleComments = async() => {
+        try {
+            const response = await axios.post("http://localhost:5000/auth/getComments", currentСomment);
+            // console.log(response);
+            setArticleMessages(response.data.comments);
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    // стейт массива для сообщений
+    const [articleMessages, setArticleMessages]  = useState([]);   
 
     // const [atricleForComments, setAtricleForComments] = useState([]);
 
-    const [objectCopy, setObjectcopy] = useState(
+    const [message, setMessage] = useState(
         {
-            username : "misterCrow21",
-            messageText: "",
-            foto : "/clearAvatar.png",
-            date : "",
-            id: Math.floor(Math.random() * 100000000000000),
-            classForKrestik : "ModalCommentkrestik"
+            nickname : userData.nickname,
+            userId:userData._id,
+            image: userData.image,
+            articleId: currentСomment._id,
+            text: "",
+            date : new Date(),
         }
     );
-    
+        
     const [forArea, setForArea] = useState("");
-    const [changheSendButton, setChangheSendButton] = useState(false);
+    // стейт для изменения сотсояния кнопки отправки сообщений
+    const [changheSendButton, setChangheSendButton] = useState(false);  
     
 
     const addMessageInfoHandler = (event) =>{
-        
-        const objCopy = {...objectCopy};
-        objCopy.messageText = event.target.value;
+                
+        const copyMessage = {...message};
+        copyMessage.text = event.target.value;
         setForArea(event.target.value);
-        setObjectcopy(objCopy);
-       console.log(objCopy.messageText);
-        if(objCopy.messageText.length > 0){
+        setMessage(copyMessage);
+    //    console.log(message.text);
+        if(copyMessage.text.length > 0){
             setChangheSendButton(true);
         }else{
             setChangheSendButton(false);
@@ -40,100 +65,102 @@ export const Comments = (props) => {
         }
     };
 
-    const sendMessageHandler = async() => {
- 
-        const response = await axios.post("http://localhost:5000/auth/comments");
-
-        // if(objectCopy.messageText !== ""){
-
-        //     const h = new Date().getHours();
-        //     const m = new Date().getMinutes();
-        //     const commentCopy = {...objectCopy, date: h + ":" + m};
-        //     const newArticle = {...articleMessages};
-        //     const copyNewArticle = {...newArticle, comments: [...newArticle.comments, commentCopy]};
-
-        //     setArticleMessages(copyNewArticle);
-
-        //     setObjectcopy({
-        //         username : "misterCrow21",
-        //         messageText: "",
-        //         foto : "/clearAvatar.png",
-        //         date : "",
-        //         id:Date.now().toString(),
-        //         classForKrestik : "ModalCommentkrestik"
-
-        //     });
-        //     setForArea("");
-
-        //     const mainArray = props.curentArray.map((curent)=>{
-        //         if(curent.id == props.commentIndex){
-        //             console.log(";");
-        //             return curent = {...copyNewArticle};
-        //         }
-        //         else{
-        //             return curent;
-        //         }
-        //     });
-        //     props.curentArraySet(mainArray);
-            
-        // };
-    };
-   
-    // const deleteMessageHandler = (comment) => {
-    //     const copyObj = {...articleMessages};
-
-    //     const corectMessagArray = copyObj.comments.filter((com) =>{ 
-    //         if(com.messageText !== comment.messageText){
-    //             return com;
-    //         }    
-    //     });
-    //     const copyNewArticle = {...copyObj, comments : corectMessagArray}; 
-
-    //     setArticleMessages({...copyObj, comments : corectMessagArray} );
-
-
-    //     const mainArray = props.curentArray.map((curent)=>{
-    //         if(curent.id == props.commentIndex){
-    //             console.log(";");
-    //             return curent = {...copyNewArticle};
-    //         }
-    //         else{
-    //             return curent;
-    //         }
-    //     });
-    //     // console.log(mainArray);
-    //     props.curentArraySet(mainArray);
-    // };
-    // console.log(articleMessages);
- 
     // console.log(props.atricleForComments);
- 
-    
-    const test = (event) => {
-        console.log('Key down event:', event.key);
+    const sendMessageHandler = async() => {
+        setDiscutionPublicArchiveArticle([currentСomment, ...discutionPublicArchiveArticle])
+        console.log(message);
+        const copyMessage = {...message};
+        const articleMessagesCopy = [...articleMessages, message]; 
+        
+        setArticleMessages(articleMessagesCopy);
+        setForArea("");
+        setMessage(   
+            {
+                nickname : userData.username,
+                userId:userData._id,
+                image: userData.image,
+                articleId: currentСomment._id,
+                text: "",
+                date : new Date(),
+       })
 
-    }
+       setChangheSendButton(false);
+        console.log(copyMessage);
+
+        const userId = userData._id; 
+        const privat = false;
+        const copyObject = {...currentСomment, userId, privat};
+        const response = await axios.post("http://localhost:5000/auth/comments", {
+            copyMessage: copyMessage,
+            currentСomment: copyObject
+          });
+          
+        
+
+    };
+    // console.log(articleMessages);
     
+   
+    const openComment = (archieve) =>{     //функция передающая информацию об объекте в новое окно коментариев
+        localStorage.setItem('currentComment', JSON.stringify(archieve));
+        // props.setAtricleForComments(archieve);
+        getArticleComments();
+        window.location.reload();
+    }
+
+    
+
     return (
     <div className='commentsBox'>
-            <div className='back' ><Link className='backLink' to = {"/" + props.backMainFromComment}>🠔Back</Link></div>
+            <div className='choseAnotherArticlesMenu'>
+            <div className='backk' ><Link className='backLink' to = {"/" + props.backMainFromComment}>🠔</Link></div>
             
-            <div  className="punktComments" >
-                <div  className="autor">{props.atricleForComments.author}</div>
-                <div  className="date">
-                    {new Date(props.atricleForComments.publishedAt).getHours()}:
-                    {new Date(props.atricleForComments.publishedAt).getMinutes()}
+                <div className='articlesInChooseMenu'>
+                    
+                    {discutionPublicArchiveArticle.map((archieve) =>     
+                        <Link key = {archieve._id} to={"/comments"} style={{ textDecoration: 'none', color:'black' }}><div onClick={() => openComment(archieve)} className='punktChooseMenu'>
+                            <div  className="dateChooseMenu">
+                                {moment(archieve.publishedAt).fromNow()}
+                            </div>
+                            <div  className="titleChooseMenu" > {archieve.title} </div>
+                            <div className="fotoNewsChooseMenu">{archieve.urlToImage ? <img src={archieve.urlToImage} alt="" /> : <div></div>}</div>                      
+                        </div>
+                        </Link>
+                    )}
+            
                 </div>
             
-                <div className="contentComments" >  {props.atricleForComments.content}  </div>
-                <div  className="titleComments" > {props.atricleForComments.title} </div>
-                <div className="fotoNews"> <img src={props.atricleForComments.urlToImage} alt="" /></div>                  
             </div>
+            <div  className="punktComments"   >
+                <div  className="dateComments">
+                    {moment(currentСomment.publishedAt).fromNow()}
+                </div>            
+                <div  className="titleComments" > {currentСomment.title} </div>
+                <div className="fotoNewsComments">{currentСomment.urlToImage ?  <img src={currentСomment.urlToImage} alt="" /> : <div></div>}</div>                  
+            </div>
+            
             <div className="messageArea">
+          
+  
+                <ol className="chat">
+                    {articleMessages.map((message) => 
+                        <li className="other" key = {message._id}>
+                        <img className='imageUserMessage' src={message.image} alt="" />
+                        <div className="msg">
+                            <div className="user">{message.nickname}</div>
+                            <p>{message.text}</p>
+                            {/* <time>20:17</time> */}
+                        </div>
+                        </li>
+                    )}
+                </ol>
+            
             </div>
-            <div className="coomentInput"><textarea onChange={addMessageInfoHandler}  value={forArea} placeholder='Type comment...' name="" id="" cols="30" rows="10"></textarea></div>
-            <div className={changheSendButton ? "sendMessageComments" : "sendMessageCommentsDisable"} onClick={sendMessageHandler}><img  src="./send2.png" alt="" /></div>
-
+            
+                <div className="typezone">
+                    <form><textarea  type="text"  onChange={addMessageInfoHandler}  value={forArea} placeholder="Type comment..."></textarea></form>
+                </div>                     
+                <div className={changheSendButton ? "sendMessageComments" : "sendMessageCommentsDisable"} onClick={sendMessageHandler}><img  src="./send2.png" alt="" /></div>
 
     </div>
   )

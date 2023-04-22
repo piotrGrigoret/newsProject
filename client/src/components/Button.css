@@ -1,5 +1,7 @@
 .buttonContainer{
   grid-column-start: 3;
+  margin-top: 1.7vw;
+  /* border: solid; */
 }
 
 .all{
