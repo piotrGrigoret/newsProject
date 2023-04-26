@@ -3,6 +3,18 @@ import "./Profile.css";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ModalComent from './ModalComent';
+
+import {Cloudinary} from "@cloudinary/url-gen";
+
+import { CloudinaryContext, Image, Transformation } from "cloudinary-react";
+
+const cloudName = "dckzfe6y5";
+const apiKey = "235978599428842";
+const apiSecret = "ATMOg0dxvy2DPcKN8t8cNm4iBA4";
+
+  
+
+
 const Profile = (props) => {
     const userData = JSON.parse(localStorage.getItem('userData'));//данные о юзере из локалСторадж   
     const [userDataObj, setUserDataObj] = useState(userData);
@@ -51,6 +63,7 @@ const Profile = (props) => {
             try {
                 const response = await axios.post("http://localhost:5000/auth/changeUser", userDataObj);
                 window.location.reload();   
+                window.location.reload();   
                 console.log(response);
 
             } catch (error) {
@@ -70,16 +83,31 @@ const Profile = (props) => {
 
 
     // фотографии
+
+    
+
     const [selectedFile, setSelectedFile] = useState(null);
     const [previewSource, setPreviewSource] = useState(null);
   
-    const handleFileInputChange = (event) => {
+    const handleFileInputChange = async(event) => {
       const file = event.target.files[0];
       setSelectedFile(file);
       previewFile(file);
+      
       if(file){
         setFotoPlatform(false);
-      }
+        console.log(file);
+        
+        const formData = new FormData();
+        formData.append('file', file);
+        axios.post('http://localhost:5000/changefoto', formData, {
+            headers: {
+            //   'Content-Type': 'multipart/form-data'
+            }
+          })
+            .then(response => console.log(response.data))
+            .catch(error => console.error(error));
+    }
     };
   
     const handleSubmit = (event) => {
@@ -97,7 +125,8 @@ const Profile = (props) => {
 
     //изменение платформы для фото
     const [fotoPlatform, setFotoPlatform] = useState(false);
-    const changeFotoHandler = () => {
+    const changeFotoHandler = async() => {
+        
         if(fotoPlatform == true){
             setFotoPlatform(false);    
             
@@ -107,8 +136,29 @@ const Profile = (props) => {
         }
     }
 
+    const cloudName = "dckzfe6y5";
 
-    console.log(props.privateArchieve);
+    const [image, setImage] = React.useState("");
+
+    const handleUpload = (event) => {
+        const file = event.target.files[0];
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("cloud_name", cloudName);
+        formData.append("upload_preset", "xrwr1gwb");
+        console.log(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`);
+        fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            setImage(data.secure_url);
+          })
+          .catch((error) => console.error(error));
+      };
+
+        // console.log(props.techArticlesPrivate);
     return (
     <div className='optionsBox'>
         {deleteModalAttentionCard &&
@@ -131,10 +181,21 @@ const Profile = (props) => {
             
             <div className='profileBox'>
                 <div className='imageBox'>
+                    <div>
+                        <input type="file" onChange={handleUpload} />
+                        {image && (
+                            <CloudinaryContext cloudName={cloudName}>
+                                <Image publicId={image}>
+                                    <Transformation width="300" crop="scale" />
+                                </Image>
+                            </CloudinaryContext>
+                        )}
+                    </div>
+
                     {fotoPlatform 
                         ?
-                            <label for="images" class="drop-container">
-                                <span class="drop-title">Drop files here</span>
+                            <label  className="drop-container">
+                                <span className="drop-title">Drop files here</span>
                                 or
                                 <input id= "inputTag" type="file" placeholder='Change Foto' onChange={handleFileInputChange} />
                             </label>
@@ -193,14 +254,14 @@ const Profile = (props) => {
                                 <div className='statNumber'>0</div>
                                 <div className='typeOfArchieve' title='Public Articles'>Pub:</div>
                                 <div className='statNumber'>{props.publicArhieve.length}</div>
-                               <div className='statNumber'>{props.techArticlesPrivate.length}</div>
-                               <div className='statNumber'>{props.publicArhieve.length - props.techArticlesPrivate.length}</div>
-                               <div className='statNumber'>0</div>
+                               <div className='statNumber'>{props.techArticlesPublic.length}</div>
+                               <div className='statNumber'>{props.publicArhieve.length - props.techArticlesPublic.length}</div>
+                               <div className='statNumber'>{props.allUserComents.length}</div>
                                <div></div>
                                 <div className='statTitle'title='Articles in Archieve'> Art </div> 
                                 <div className='statTitle' title='Technology articles in archieve'> Tech </div> 
                                 <div className='statTitle' title='Business articles in archieve'> Bus </div> 
-                                <div className='statTitle' title='All Comentaries'>Com</div> 
+                                <div className='statTitle' title='All user Comentaries'>Com</div> 
 
                             </div>
 

@@ -8,6 +8,9 @@ const {validationResult} = require('express-validator');
 const jwt = require('jsonwebtoken');
 const {secret} = require("./config");
 
+// const cloudinary = require("cloudinary").v2;
+// const multer = require('multer');
+
 const generateAccessToken = (id, roles) => {                 // ПОКА НЕ ЗНАЮ КАК С ТОКЕНАМИ ДЕЛАТЬ  - ПОТОМ НАДО УЗНАТЬ 
 
     const payload = {
@@ -71,12 +74,22 @@ class authController{
     async changeUser (req, res) {
         try {
             const user = req.body;
-            // console.log(user);
             const candidate = await User.findOne({username: user.username});
             if(candidate){
                 if(candidate._id.toString() !== user._id){
                     console.log("a user with the same username already exists");
                     return res.status(400).json({message: "a user with the same username already exists"});     
+                }else{
+                    await User.findByIdAndUpdate(
+                        {_id: user._id},
+                        {
+                            username:user.username,
+                            nickname:user.nickname,
+                            password:user.password,
+                        }
+                    );
+                    console.log("user change sucess");
+                    return res.json({message: "user change sucess"});    
                 }
             }
             else{
@@ -88,8 +101,8 @@ class authController{
                         password:user.password,
                     }
                 );
-                console.log("user change");
-                return res.json({message: "userChange"});
+                console.log("user change sucess");
+                return res.json({message: "user change sucess"});
             }
         } catch (error) {
             res.send(error);
@@ -250,8 +263,9 @@ class authController{
         try {
             const userId = req.body.userData._id;
             const articleId = req.body.propsObject._id;
-            const isObjectinPublicArchieve = await Article.findOne({articleId})
-            if(isObjectinPublicArchieve){
+            const isObjectinPublicArchieve = await Article.findOne({_id: articleId})
+            
+            if(isObjectinPublicArchieve && isObjectinPublicArchieve.public){
                 console.log("_id: " + articleId + "= object already have in public archieve");
                 
                 const userArticle = await UserArticle.findOneAndDelete({articleId, userId});
@@ -280,24 +294,27 @@ class authController{
             const {author, title, description, url, urlToImage, publishedAt, content,  privat, source, deleteFromPrivate } = req.body.currentСomment;
 
             const checkObjectInDB = await Article.findOne({title});
-            console.log(checkObjectInDB);
+            console.log(articleId);
 
-            if(articleId ){
+            if(articleId){
                 console.log("******************************");
                 const comment = new Comment({nickname, userId, image, articleId, text, date});
             
                 await  Article.findByIdAndUpdate(
                     {_id: articleId},
-                    {public: true},
+                    {
+                        public: true,
+                        lastUpdate: comment.date
+                    },
                 );
                 console.log("You save comment in exist object:  '" + comment.text +"', " + "save in" + " _id: '" + checkObjectInDB._id + "'" );
                 comment.save();
-    
+                
             }  
             else{
                 
                 const {author, title, description, url, urlToImage, publishedAt, content, userId, privat, source, deleteFromPrivate } = req.body.currentСomment;
-                const article = new Article({author, title, description, url, urlToImage, publishedAt, content, userId,  source, public:true});
+                const article = new Article({author, title, description, url, urlToImage, publishedAt, lastUpdate: date, content, userId,  source, public:true});
                 
                 await article.save();
                 console.log("article " + author + " save");
@@ -317,18 +334,82 @@ class authController{
     }
     
     async getComments (req, res){
-        const id = req.body._id;
+        
+        
         try {
+            if(req.body.password){
+                const {_id} = req.body;
+                const comments =  await Comment.find({userId: _id});
+                res.json({comments});
 
-            const comments =  await Comment.find({articleId: id});
-            // console.log(comments);
-            res.json({comments});
+            }else{
+
+                const id = req.body._id;
+
+                const comments =  await Comment.find({articleId: id});
+                // console.log(comments);
+                res.json({comments});
+            }
+            
 
         } catch (error) {
             console.log(error);
         }
     }
-      
+    async checkArticleOnOpenComments (req, res){
+        try {
+            const  {publishedAt, title} = req.body;
+            const copyObject  = await Article.findOne({title});
+            if(copyObject){
+                console.log("this object is in DB. On front was sended copy from DB for use _id");
+                res.json({copyObject});
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+  
+
+    // async changefoto(req, res){
+    //     try {
+    //         console.log(req.body);
+    //         console.log("****************");
+    //         // настройка multer для загрузки файлов
+    //         const storage = multer.diskStorage({});
+    //         const upload = multer({ storage });
+
+    //         // middleware для обработки данных формы
+    //         use(express.urlencoded({ extended: true }));
+    //         use(express.json());
+    //         use(upload.single('file'));
+
+    //         // маршрут для обработки POST запроса с загружаемым файлом
+    //         // app.post('/changeFoto', (req, res) => {
+    //             console.log(req.body);
+    //             console.log(req.file);
+    //         // загрузка файла в Cloudinary и т.д.
+    //         // });
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
+    // Настройки Cloudinary
+// cloudinary.config({
+//     cloud_name: "dckzfe6y5",
+//     api_key: "235978599428842",
+//     api_secret: "ATMOg0dxvy2DPcKN8t8cNm4iBA4"
+//   });
+
+// const res = cloudinary.uploader.upload('https://upload.wikimedia.org/wikipedia/commons/a/ae/Olympic_flag.jpg', {public_id: "olympic_flag"})
+
+// res.then((data) => {
+//   console.log(data);
+//   console.log(data.secure_url);
+// }).catch((err) => {
+//   console.log(err);
+// });
+
+
     
 }
 

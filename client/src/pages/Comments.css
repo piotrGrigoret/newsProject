@@ -2,7 +2,7 @@
     /* border: solid; */
     display: grid;
     grid-template-columns: 25% 70% 5%;
-    grid-template-rows: 15% 70% 15%;
+    grid-template-rows: 15% 65% 20%;
     height: 100vh;
     margin: 0;
 }
@@ -223,7 +223,7 @@ textarea:focus {
 
 }
 
-/* еню выбора других артиклов */
+/* меню выбора других артиклов */
 .choseAnotherArticlesMenu{
     height: 98.5%;
     /* border: solid 0.3vw rgb(182, 173, 173); */
@@ -262,14 +262,17 @@ textarea:focus {
     width: 0.2vw; /* ширина для вертикального скролла */
     height: 0.2vw; /* высота для горизонтального скролла */
     background-color: #ced3d7;
+    /* display: none; */
 
 } 
+
 .punktChooseMenu{
     /* border: solid; */
     display: grid;
     height: 6vw;
     width: 100%;
-    grid-template-columns: 18% 5% 53% auto;
+    grid-template-columns: 18% 5% 53% 15% auto ;
+    grid-template-rows: 30% 40% 30%;
     transition: 0.5s;
     cursor: pointer;
 }
@@ -303,8 +306,8 @@ textarea:focus {
 /* line-height: 4.4vw; */
 height: 14%;    
 grid-column-start: 4;
-    grid-row-start: 1;
-    margin-top: 3.6vw;
+    grid-row-start: 3;
+    /* margin-top: 3.6vw; */
     font-size: 0.6vw;
     font-weight: 650;
     text-align: center;
@@ -325,7 +328,22 @@ grid-column-start: 4;
     text-align:left;
 
 }
-
+.privateVerificationForCommentsChhoseMenu{
+    grid-row-start: 2;
+    grid-column-start: 4;
+    /* border: solid; */
+}
+.privateVerificationForCommentsChhoseMenu img{
+    width: 1vw;
+    height: 1vw;
+    /* border: solid; */
+    /* margin-left: 4vw; */
+    float: right;
+    /* position:static; */
+    /* transition: 0.2s; */
+       
+    /* border: solid; */
+}
 
 
 
@@ -339,9 +357,9 @@ grid-column-start: 4;
     list-style: none;
     background: none;
     margin: 0;
-    padding: 0 0 50px 0;
-    margin-top: 60px;
-    margin-bottom: 15px;
+    padding: 0 0 4vw 0;
+    margin-top: 2.4vw;
+    margin-bottom: 1vw;
     grid-column-start: 1;
     /* border: solid; */
 }
@@ -354,6 +372,7 @@ grid-column-start: 4;
     width: 2.5vw;
     height: 2.5vw;
     margin-right: 0.2vw;
+    border-radius: 2vw;
 }
 /* .other .msg {
     border-top-left-radius: 0px;

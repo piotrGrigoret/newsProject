@@ -4,6 +4,9 @@ const authRouter = require('./authRouter');
 const PORT = process.env.PORT || 5000;
 const cors = require('cors');
 
+const cloudinary = require("cloudinary").v2;
+const multer = require('multer');
+
 const app = express();
 app.use(express.json());
 app.use(
@@ -14,22 +17,35 @@ app.use(
     
     }),
 );
-// app.use(cors({
-//     origin: 'http://localhost:3000',
-//     // optionsSuccessStatus: 200
-//   }));
-// app.use((req, res, next) => {
-//     res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-//     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-//     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-//     if (req.method === "OPTIONS") {
-//       res.status(200).send("OK");
-//     } else {
-//       next();
-//     }
-//   });
-  
+
 app.use("/auth", authRouter);
+
+app.post("/changefoto", async(req, res) => {
+
+
+    try {
+        console.log(req.body);
+        console.log("****************");
+        // настройка multer для загрузки файлов
+        const storage = multer.diskStorage({});
+        const upload = multer({ storage });
+
+        // middleware для обработки данных формы
+        app.use(express.urlencoded({ extended: true }));
+        app.use(express.json());
+        app.use(upload.single('file'));
+
+        // маршрут для обработки POST запроса с загружаемым файлом
+        // app.post('/changeFoto', (req, res) => {
+            console.log(req.body);
+            console.log(req.file);
+        // загрузка файла в Cloudinary и т.д.
+        // });
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 
 const start = async() => {
     try {
@@ -41,12 +57,6 @@ const start = async() => {
 
 
 }
+
 start();
-app.post("/test", (req, res)=>{
-  console.log(req.body);
-})
-
-
-
-
 

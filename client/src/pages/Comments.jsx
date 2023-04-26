@@ -6,12 +6,32 @@ import axios from 'axios';
 import moment from 'moment';
 
 export const Comments = (props) => {
+// для добавления галки в меню сбоку
+    useEffect(()=>{
+        proverkaDobavleniaVArhiv();
+        
+        },[props.publicArchieve, props.privateArchieve])
+      
+      const proverkaDobavleniaVArhiv = () => {
+          const updatedArticles = props.publicArhieve.map((arrayObj)=>{    
+            if(props.privateArchieve.find(article => article.title === arrayObj.title)){
+            
+                return {...arrayObj, galka: true}; 
+            } 
+            return arrayObj;
+        });
+        props.setPublicArchieve(updatedArticles);
+    
+        // console.log(updatedArticles);
+        
+      }
+    
+
     
     const currentСomment = JSON.parse(localStorage.getItem('currentComment'));
     const userData = JSON.parse(localStorage.getItem('userData'));
-
-    const [discutionPublicArchiveArticle, setDiscutionPublicArchiveArticle] = useState(props.publicArhieve);
-    // console.log(discutionPublicArchiveArticle);
+    // const [discutionPublicArchiveArticle, setDiscutionPublicArchiveArticle] = useState(props.publicArhieve);
+    const [discutionPublicArchiveArticle, setDiscutionPublicArchiveArticle] = useState(props.publicArhieve.sort((a, b) => new Date(b.lastUpdate) - new Date(a.lastUpdate)));
     useEffect(() => {
         getArticleComments();
         setDiscutionPublicArchiveArticle(props.publicArhieve);
@@ -23,12 +43,14 @@ export const Comments = (props) => {
         try {
             const response = await axios.post("http://localhost:5000/auth/getComments", currentСomment);
             // console.log(response);
-            setArticleMessages(response.data.comments);
+            // setArticleMessages(response.data.comments);
+            setArticleMessages(response.data.comments.sort((a, b) => new Date(b.lastUpdate) - new Date(a.lastUpdate)));
             
         } catch (error) {
             console.log(error);
         }
     }
+
     // стейт массива для сообщений
     const [articleMessages, setArticleMessages]  = useState([]);   
 
@@ -58,6 +80,13 @@ export const Comments = (props) => {
         setMessage(copyMessage);
     //    console.log(message.text);
         if(copyMessage.text.length > 0){
+            // if(copyMessage.text.includes('\n')){
+            //     const text = copyMessage.text;
+            //     setMessage({
+            //         ...message,
+            //         text: text.replaceAll('\n', '')
+            //     });
+            // }
             setChangheSendButton(true);
         }else{
             setChangheSendButton(false);
@@ -67,40 +96,82 @@ export const Comments = (props) => {
 
     // console.log(props.atricleForComments);
     const sendMessageHandler = async() => {
-        setDiscutionPublicArchiveArticle([currentСomment, ...discutionPublicArchiveArticle])
-        console.log(message);
-        const copyMessage = {...message};
-        const articleMessagesCopy = [...articleMessages, message]; 
-        
-        setArticleMessages(articleMessagesCopy);
-        setForArea("");
-        setMessage(   
-            {
-                nickname : userData.username,
-                userId:userData._id,
-                image: userData.image,
-                articleId: currentСomment._id,
-                text: "",
-                date : new Date(),
-       })
+        if(changheSendButton){
+            
+                // console.log(message);
+                setChangheSendButton(false);
 
-       setChangheSendButton(false);
-        console.log(copyMessage);
+                if(currentСomment._id){
+                    
+                    let curentMessageCOpy = {};        
+                    let copyDisctionPublic = discutionPublicArchiveArticle.filter((discution)=>{
+                        if(discution.title !== currentСomment.title){
+                            return discution
+                        }else{
+                            curentMessageCOpy = discution;
+                        }
+            
+                    });
+                    if(currentСomment.public === false){
+                        curentMessageCOpy = {...currentСomment, public: true};
+                    }                    
+                    copyDisctionPublic = [curentMessageCOpy, ...copyDisctionPublic];
+                    setDiscutionPublicArchiveArticle(copyDisctionPublic);
+            
+                }
 
-        const userId = userData._id; 
-        const privat = false;
-        const copyObject = {...currentСomment, userId, privat};
-        const response = await axios.post("http://localhost:5000/auth/comments", {
-            copyMessage: copyMessage,
-            currentСomment: copyObject
-          });
-          
-        
+                const copyMessage = {...message};
+                const articleMessagesCopy = [...articleMessages, message]; 
+                
+                setArticleMessages(articleMessagesCopy);
+                setForArea("");
+                setMessage(   
+                    {
+                        nickname : userData.nickname,
+                        userId:userData._id,
+                        image: userData.image,
+                        articleId: currentСomment._id,
+                        text: "",
+                        date : new Date(),
+            })
 
+
+                const userId = userData._id; 
+                const privat = false;
+                const copyObject = {...currentСomment, userId, privat};
+                
+
+                const response = await axios.post("http://localhost:5000/auth/comments", {
+                    copyMessage: copyMessage,
+                    currentСomment: copyObject
+                });
+                console.log(response);
+                localStorage.setItem('currentComment', JSON.stringify(response.data.article));
+                if(response.data.article){
+                    setDiscutionPublicArchiveArticle([response.data.article, ...discutionPublicArchiveArticle]);
+                    window.location.reload();
+                }          
+            
+        }
     };
     // console.log(articleMessages);
-    
-   
+    function handleKeyPress(event) {
+        // if(message.text && message.text.length === 0 || message.text.includes('\n')){
+        //     setForArea("");
+        //     setMessage({
+        //         ...message,
+        //         text: ""
+        //         })
+                
+        //     return;
+        // };
+        // console.log(message);
+        if (event.key === "Enter" && !event.shiftKey) { // добавляем проверку на shiftKey
+            event.preventDefault(); // предотвращаем перенос на новую строку
+            sendMessageHandler();
+          }
+      }
+
     const openComment = (archieve) =>{     //функция передающая информацию об объекте в новое окно коментариев
         localStorage.setItem('currentComment', JSON.stringify(archieve));
         // props.setAtricleForComments(archieve);
@@ -109,14 +180,16 @@ export const Comments = (props) => {
     }
 
     
-
+    //   const sendMessage = () =>{
+    //     console.log("rg");
+    //   }
     return (
     <div className='commentsBox'>
             <div className='choseAnotherArticlesMenu'>
             <div className='backk' ><Link className='backLink' to = {"/" + props.backMainFromComment}>🠔</Link></div>
             
                 <div className='articlesInChooseMenu'>
-                    
+
                     {discutionPublicArchiveArticle.map((archieve) =>     
                         <Link key = {archieve._id} to={"/comments"} style={{ textDecoration: 'none', color:'black' }}><div onClick={() => openComment(archieve)} className='punktChooseMenu'>
                             <div  className="dateChooseMenu">
@@ -124,6 +197,7 @@ export const Comments = (props) => {
                             </div>
                             <div  className="titleChooseMenu" > {archieve.title} </div>
                             <div className="fotoNewsChooseMenu">{archieve.urlToImage ? <img src={archieve.urlToImage} alt="" /> : <div></div>}</div>                      
+                            {archieve.galka && <div className='privateVerificationForCommentsChhoseMenu'><img title = "added" src="./galka2.png" alt="" /></div>}
                         </div>
                         </Link>
                     )}
@@ -136,7 +210,8 @@ export const Comments = (props) => {
                     {moment(currentСomment.publishedAt).fromNow()}
                 </div>            
                 <div  className="titleComments" > {currentСomment.title} </div>
-                <div className="fotoNewsComments">{currentСomment.urlToImage ?  <img src={currentСomment.urlToImage} alt="" /> : <div></div>}</div>                  
+                <div className="fotoNewsComments">{currentСomment.urlToImage ?  <img src={currentСomment.urlToImage} alt="" /> : <div></div>}</div>  
+                    
             </div>
             
             <div className="messageArea">
@@ -144,12 +219,13 @@ export const Comments = (props) => {
   
                 <ol className="chat">
                     {articleMessages.map((message) => 
-                        <li className="other" key = {message._id}>
+                        <li className="other" key = {message.date}>
                         <img className='imageUserMessage' src={message.image} alt="" />
+                        {/* <img className='imageUserMessage' src={"/ispanka.jpg"} alt="" /> */}
                         <div className="msg">
                             <div className="user">{message.nickname}</div>
                             <p>{message.text}</p>
-                            {/* <time>20:17</time> */}
+                            {/* <time className='msgDate'>{moment(message.date).format(" h:mm")}</time>                 */}
                         </div>
                         </li>
                     )}
@@ -158,7 +234,7 @@ export const Comments = (props) => {
             </div>
             
                 <div className="typezone">
-                    <form><textarea  type="text"  onChange={addMessageInfoHandler}  value={forArea} placeholder="Type comment..."></textarea></form>
+                    <form><textarea  type="text" onKeyPress={handleKeyPress}  onChange={addMessageInfoHandler}  value={forArea} placeholder="Type comment..."></textarea></form>
                 </div>                     
                 <div className={changheSendButton ? "sendMessageComments" : "sendMessageCommentsDisable"} onClick={sendMessageHandler}><img  src="./send2.png" alt="" /></div>
 

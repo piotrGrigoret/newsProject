@@ -19,6 +19,7 @@ function App() {
   // юз эффект для получения изначальных данных из БД
   useEffect(()=>{
     getArticleArray();
+    getStatisticsComents();
     getUser();
   }, []);
   const getUser = async() => {
@@ -36,7 +37,7 @@ function App() {
   //// СТЕЙТЫ ДЛЯ СТАТИЧТИКИ
   const [techArticlesPublic, setTechArticlesPublic] = useState([]);//стейты для статистики количества тех... и биз... артиклов          
   const [techArticlesPrivate, setTechArticlesPrivate] = useState([]);//стейты для статистики количества тех... и биз... артиклов          
-  
+  const [allUserComents, setAllUserComents] = useState([]); //стейт для статистики всех коментариев юзера
   //// СТЕЙТЫ ДЛЯ КОММЕНТАРИЕВ
   const [atricleForComments, setAtricleForComments] = useState([]);
   const [backMainFromComment, setBackMainFromComments] = useState("");
@@ -48,21 +49,29 @@ function App() {
           // console.log(userData);
             
         const response = await axios.post("http://localhost:5000/auth/getArchieve", userData);
-        setPrivateArhieve(response.data.articlesPrivat);
-        setPublicArchieve(response.data.articlesPublic);
+        setPrivateArhieve(response.data.articlesPrivat.reverse());
+        setPublicArchieve(response.data.articlesPublic.reverse());
         /// для статистики
         setTechArticlesPublic(response.data.articlesPublic.filter((arr)=>{
-          if(arr.source.name === "TechCrunch" && arr.privat == "false"){
+          if(arr.source.name == "TechCrunch"){
               return arr
-          }        
+          }   
+               
         }));
         setTechArticlesPrivate(response.data.articlesPrivat.filter((arr)=>{
-          if(arr.source.name === "TechCrunch" && arr.privat == "true"){
+          if(arr.source.name == "TechCrunch"){
               return arr
           }        
         }));
   };  
+  const getStatisticsComents = async() =>{
+    const userData = JSON.parse(localStorage.getItem('userData'));
+    const responseComments = await axios.post("http://localhost:5000/auth/getComments", userData);
+    setAllUserComents(responseComments.data.comments)
+
+  }
  
+  
   
   // ОБЪЕКТ ЮЗЕРА ПОЛУЧАЕМЫЙ ИЗ БД
   const [user, setUser] = useState({});
@@ -103,7 +112,8 @@ function App() {
                     techArticlesPrivate = {techArticlesPrivate}
                     privateArchieve = {privateArchieve}
                     publicArhieve = {publicArhieve}
-                  />
+                    allUserComents = {allUserComents}
+                    />
                 }/>
 
                 <Route path="options/password" element = {
@@ -116,10 +126,11 @@ function App() {
                       <Comments 
                         // archieveArr = {archieveArr}
                         publicArhieve = {publicArhieve}
+                        setPublicArchieve = {setPublicArchieve}
+                        privateArchieve = {privateArchieve}
                         atricleForComments = {atricleForComments}
                         setAtricleForComments = {setAtricleForComments}
                         backMainFromComment = {backMainFromComment}
-                       
                       />}/>
                 <Route path="/" 
                   element={

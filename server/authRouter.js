@@ -19,9 +19,12 @@ router.post("/deleteUser", controller.deleteUser);
 router.post("/getArchieve", controller.getArchieve);
 router.post("/addarchieve", controller.addarchieve);
 router.post("/deletearchieve", controller.deletearchieve);
-// router.post("/checkDeletePrivateArhieve", controller.checkDeletePrivateArhieve);
 
 router.post("/comments", controller.comments);
 router.post("/getComments", controller.getComments);
+router.post("/checkArticleOnOpenComments", controller.checkArticleOnOpenComments);
+
+// router.post("/changefoto", controller.changefoto);
+
 
 module.exports = router

@@ -7,6 +7,7 @@ const Article = new Schema({
     content : {type: String,  default: ""},
     description : {type: String,  default:"" },
     publishedAt : {type: String,  required: true },
+    lastUpdate : {type: String, default: new Date()},
     title : {type: String,  required: true },
     url : {type: String,  required: true },
     urlToImage : {type: String,  default: "" },

@@ -12,7 +12,7 @@ const News = (props) => {
       }, [props.curentArray, props.privateArchieve])
     
       const proverkaDobavleniaVArhiv = () => {
-        console.log(props.privateArchieve);
+        // console.log(props.privateArchieve);
         
         const updatedArticles = props.curentArray.map((arrayObj)=>{    
             if(props.privateArchieve.find(article => article.title === arrayObj.title)){

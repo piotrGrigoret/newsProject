@@ -23,7 +23,7 @@ export const Archieve = (props) => {
     });
     props.setPublicArchieve(updatedArticles);
 
-    // console.log(updatedArticles);
+    console.log(updatedArticles);
     
   }
 
@@ -35,16 +35,19 @@ const [privatePublic, setPrivatePublic] = useState(idendificatorPrivatePublicCha
         // console.log(propsObject);  
         const userData = JSON.parse(localStorage.getItem('userData'));   
 
-        let copyPublicArchieveArr = props.privateArchieve.filter((arr) => {
+        let copyPrivateArchieveArr = props.privateArchieve.filter((arr) => {
             if(arr._id !== propsObject._id){
                 return arr
-            }   
+            }  
         });
-        props.setPrivateArhieve(copyPublicArchieveArr);
-        props.setlastDeleteArchiveObject(propsObject);
+        props.setPrivateArhieve(copyPrivateArchieveArr);
+        // props.setlastDeleteArchiveObject(propsObject);
+       setTimeout(() => {
+          window.location.reload();
+        }, 220);
+
         await axios.post("http://localhost:5000/auth/deletearchieve", {propsObject, userData});
         // console.log(response);
-        // window.location.reload();
         
       }
 
@@ -91,13 +94,13 @@ const [privatePublic, setPrivatePublic] = useState(idendificatorPrivatePublicCha
         </div>
       </div>
           
-            {!privatePublic &&
+            {/* {!privatePublic &&
               <Button 
               archieveArr = {props.archieveArr}
               setArchieveArr = {props.setArchieveArr}
               setlastDeleteArchiveObject = {props.setlastDeleteArchiveObject}
               lastDeleteArchiveObject={props.lastDeleteArchiveObject}
-            />}
+            />} */}
             <div className="news">
               {/* {props.archieveArr.length == 0
                 ?
