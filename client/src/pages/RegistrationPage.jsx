@@ -72,7 +72,9 @@ const Registration = (props) => {
             setValues3("");
             setValues4("");
             try {
-                const response = await axios.post("http://localhost:5000/auth/registration", userObj);
+                
+                // const response = await axios.post("http://localhost:5000/auth/registration", userObj);
+                const response = await axios.post("https://newsserver-vrh0.onrender.com/auth/registration", userObj);
                 // console.log(response);
                 if(response){
                     setCheckSuccessRegistration(true);
@@ -123,7 +125,9 @@ const Registration = (props) => {
 // ФУНКЦИИ ДЛЯ АВТОРИЗАЦИИ
     const onCheckVerification = async () => {
         try {
-            const response = await axios.post("http://localhost:5000/auth/login", userObj);
+            
+            // const response = await axios.post("http://localhost:5000/auth/login", userObj);
+            const response = await axios.post("https://newsserver-vrh0.onrender.com/auth/login", userObj);
             // console.log(response);
             if(response.data.user){
                 localStorage.setItem('userAcess', true);

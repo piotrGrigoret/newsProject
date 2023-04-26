@@ -49,7 +49,9 @@ const Password = (props) => {
     // функция потдверждения отправки с вызовозовом на сервер
     const submitNewPaswwordHandler = async() => {
         try {
-            const response =  await axios.post("http://localhost:5000/auth/newPassword", {userDataObj, newPassword});
+            
+            // const response =  await axios.post("http://localhost:5000/auth/newPassword", {userDataObj, newPassword});
+            const response =  await axios.post("https://newsserver-vrh0.onrender.com/auth/newPassword", {userDataObj, newPassword});
             console.log(response);
             if(response.data.message == "Password changed successfully"){
                 setSuccessChangePassword("Password changed successfully");

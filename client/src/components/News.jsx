@@ -33,7 +33,9 @@ const News = (props) => {
 
             const copyArchieveArr = [ copyObject, ...props.privateArchieve];
             props.setPrivateArhieve(copyArchieveArr);
-            const response = await axios.post("http://localhost:5000/auth/addarchieve", copyObject);
+            
+            // const response = await axios.post("http://localhost:5000/auth/addarchieve", copyObject);
+            const response = await axios.post("https://newsserver-vrh0.onrender.com/auth/addarchieve", copyObject);
             
     }
     

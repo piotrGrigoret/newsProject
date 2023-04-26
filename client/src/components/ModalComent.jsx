@@ -9,8 +9,9 @@ const ModalComent = (props) =>{
         // console.log(props.userDataObj);
         localStorage.setItem('userAcess', false);
         props.setBoolVariable(false);
-
-         await axios.post("http://localhost:5000/auth/deleteUser", props.userDataObj );
+        
+        //  await axios.post("http://localhost:5000/auth/deleteUser", props.userDataObj );
+         await axios.post("https://newsserver-vrh0.onrender.com/auth/deleteUser", props.userDataObj );
     }
     return(
         <div  className="modalComentBackground" >

@@ -61,7 +61,9 @@ const Profile = (props) => {
            
             setChangeInfoAboutUser(false);
             try {
-                const response = await axios.post("http://localhost:5000/auth/changeUser", userDataObj);
+                
+                // const response = await axios.post("http://localhost:5000/auth/changeUser", userDataObj);
+                const response = await axios.post("https://newsserver-vrh0.onrender.com/auth/changeUser", userDataObj);
                 window.location.reload();   
                 window.location.reload();   
                 console.log(response);
@@ -131,7 +133,8 @@ const Profile = (props) => {
         setTimeout(() => {
             window.location.reload();
           }, 150);
-        await axios.post("http://localhost:5000/auth/changefoto", {image, userData});
+        // await axios.post("http://localhost:5000/auth/changefoto", {image, userData});
+        await axios.post("https://newsserver-vrh0.onrender.com/auth/changefoto", {image, userData});
        
     }
 

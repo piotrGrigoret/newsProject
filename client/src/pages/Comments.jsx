@@ -41,7 +41,9 @@ export const Comments = (props) => {
     // функция для вызова кометариев из БД
     const getArticleComments = async() => {
         try {
-            const response = await axios.post("http://localhost:5000/auth/getComments", currentСomment);
+            
+            // const response = await axios.post("http://localhost:5000/auth/getComments", currentСomment);
+            const response = await axios.post("https://newsserver-vrh0.onrender.com/auth/getComments", currentСomment);
             // console.log(response);
             // setArticleMessages(response.data.comments);
             setArticleMessages(response.data.comments.sort((a, b) => new Date(b.lastUpdate) - new Date(a.lastUpdate)));
@@ -140,8 +142,9 @@ export const Comments = (props) => {
                 const privat = false;
                 const copyObject = {...currentСomment, userId, privat};
                 
-
-                const response = await axios.post("http://localhost:5000/auth/comments", {
+                
+                // const response = await axios.post("http://localhost:5000/auth/comments", {
+                const response = await axios.post("https://newsserver-vrh0.onrender.com/auth/comments", {
                     copyMessage: copyMessage,
                     currentСomment: copyObject
                 });

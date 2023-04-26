@@ -46,7 +46,8 @@ const [privatePublic, setPrivatePublic] = useState(idendificatorPrivatePublicCha
           window.location.reload();
         }, 220);
 
-        await axios.post("http://localhost:5000/auth/deletearchieve", {propsObject, userData});
+        // await axios.post("http://localhost:5000/auth/deletearchieve", {propsObject, userData});
+        await axios.post("https://newsserver-vrh0.onrender.com/auth/deletearchieve", {propsObject, userData});
         // console.log(response);
         
       }
@@ -62,7 +63,8 @@ const [privatePublic, setPrivatePublic] = useState(idendificatorPrivatePublicCha
             const copyArchieveArr = [ copyObject, ...props.privateArchieve];
             
             props.setPrivateArhieve(copyArchieveArr);
-            const response = await axios.post("http://localhost:5000/auth/addarchieve", copyObject);
+            // const response = await axios.post("http://localhost:5000/auth/addarchieve", copyObject);
+            const response = await axios.post("https://newsserver-vrh0.onrender.com/auth/addarchieve", copyObject);
             
     }
 
