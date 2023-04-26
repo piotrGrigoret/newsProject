@@ -24,7 +24,7 @@ router.post("/comments", controller.comments);
 router.post("/getComments", controller.getComments);
 router.post("/checkArticleOnOpenComments", controller.checkArticleOnOpenComments);
 
-// router.post("/changefoto", controller.changefoto);
+router.post("/changefoto", controller.changefoto);
 
 
 module.exports = router

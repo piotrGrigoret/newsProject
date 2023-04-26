@@ -30,8 +30,8 @@ const Layout = (props) => {
                 <div className="userBox">
                     
                     <div className="accauntInfo">
-                      {/* <img title="profile image" src={userData.image} alt="" /> */}
-                      <img title="profile image" src={"/ispanka.jpg"} alt="" />
+                      <img title="profile image" src={userData.image} alt="" />
+                      {/* <img title="profile image" src={"/ispanka.jpg"} alt="" /> */}
                       <div className="usernameBox">
                         <div className="nickName">{userData.nickname}</div>
                         <div className="username">{userData.username}</div>

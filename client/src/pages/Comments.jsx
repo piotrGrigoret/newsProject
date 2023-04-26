@@ -154,7 +154,6 @@ export const Comments = (props) => {
             
         }
     };
-    // console.log(articleMessages);
     function handleKeyPress(event) {
         // if(message.text && message.text.length === 0 || message.text.includes('\n')){
         //     setForArea("");
@@ -166,6 +165,7 @@ export const Comments = (props) => {
         //     return;
         // };
         // console.log(message);
+
         if (event.key === "Enter" && !event.shiftKey) { // добавляем проверку на shiftKey
             event.preventDefault(); // предотвращаем перенос на новую строку
             sendMessageHandler();

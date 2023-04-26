@@ -88,9 +88,13 @@ class authController{
                             password:user.password,
                         }
                     );
+                    const comments = await Comment.updateMany({ userId: user._id }, { nickname: user.nickname });
+                   
                     console.log("user change sucess");
+                   
                     return res.json({message: "user change sucess"});    
                 }
+
             }
             else{
                 await User.findByIdAndUpdate(
@@ -101,6 +105,8 @@ class authController{
                         password:user.password,
                     }
                 );
+                const comments = await Comment.updateMany({ userId: user._id }, { nickname: user.nickname });
+
                 console.log("user change sucess");
                 return res.json({message: "user change sucess"});
             }
@@ -370,44 +376,28 @@ class authController{
     }
   
 
-    // async changefoto(req, res){
-    //     try {
-    //         console.log(req.body);
-    //         console.log("****************");
-    //         // настройка multer для загрузки файлов
-    //         const storage = multer.diskStorage({});
-    //         const upload = multer({ storage });
+    async changefoto(req, res){
+        try {
+            // console.log(req.body);
+            const fotoReq = req.body.image;
+            const {_id} = req.body.userData;
+            await User.findByIdAndUpdate(
+                {_id},
+                {
+                    image: fotoReq
+                },
+                );
+            const userId = req.body.userData._id;
+            
+            // const comments =  await Comment.findByIdAndUpdate({userId}, {image: fotoReq});
+            const comments = await Comment.updateMany({ userId }, { image: fotoReq });
 
-    //         // middleware для обработки данных формы
-    //         use(express.urlencoded({ extended: true }));
-    //         use(express.json());
-    //         use(upload.single('file'));
-
-    //         // маршрут для обработки POST запроса с загружаемым файлом
-    //         // app.post('/changeFoto', (req, res) => {
-    //             console.log(req.body);
-    //             console.log(req.file);
-    //         // загрузка файла в Cloudinary и т.д.
-    //         // });
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
-    // Настройки Cloudinary
-// cloudinary.config({
-//     cloud_name: "dckzfe6y5",
-//     api_key: "235978599428842",
-//     api_secret: "ATMOg0dxvy2DPcKN8t8cNm4iBA4"
-//   });
-
-// const res = cloudinary.uploader.upload('https://upload.wikimedia.org/wikipedia/commons/a/ae/Olympic_flag.jpg', {public_id: "olympic_flag"})
-
-// res.then((data) => {
-//   console.log(data);
-//   console.log(data.secure_url);
-// }).catch((err) => {
-//   console.log(err);
-// });
+            // console.log(comments);
+            console.log("Foto was change succesfuly");
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
 
     

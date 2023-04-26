@@ -84,45 +84,6 @@ const Profile = (props) => {
 
     // фотографии
 
-    
-
-    const [selectedFile, setSelectedFile] = useState(null);
-    const [previewSource, setPreviewSource] = useState(null);
-  
-    const handleFileInputChange = async(event) => {
-      const file = event.target.files[0];
-      setSelectedFile(file);
-      previewFile(file);
-      
-      if(file){
-        setFotoPlatform(false);
-        console.log(file);
-        
-        const formData = new FormData();
-        formData.append('file', file);
-        axios.post('http://localhost:5000/changefoto', formData, {
-            headers: {
-            //   'Content-Type': 'multipart/form-data'
-            }
-          })
-            .then(response => console.log(response.data))
-            .catch(error => console.error(error));
-    }
-    };
-  
-    const handleSubmit = (event) => {
-      event.preventDefault();
-      // Do something with the selected file
-    };
-  
-    const previewFile = (file) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        setPreviewSource(reader.result);
-      };
-    };
-
     //изменение платформы для фото
     const [fotoPlatform, setFotoPlatform] = useState(false);
     const changeFotoHandler = async() => {
@@ -135,18 +96,19 @@ const Profile = (props) => {
             setFotoPlatform(true);
         }
     }
-
+// отправка фото в клоудинари и сохранение в БД
     const cloudName = "dckzfe6y5";
-
     const [image, setImage] = React.useState("");
 
     const handleUpload = (event) => {
+        setFotoPlatform(false);    
+    
         const file = event.target.files[0];
         const formData = new FormData();
         formData.append("file", file);
         formData.append("cloud_name", cloudName);
         formData.append("upload_preset", "xrwr1gwb");
-        console.log(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`);
+        // console.log(formData);
         fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
           method: "POST",
           body: formData,
@@ -154,150 +116,158 @@ const Profile = (props) => {
           .then((response) => response.json())
           .then((data) => {
             setImage(data.secure_url);
+            sendImageToDB(data.secure_url);
+
           })
           .catch((error) => console.error(error));
-      };
-
-        // console.log(props.techArticlesPrivate);
-    return (
-    <div className='optionsBox'>
-        {deleteModalAttentionCard &&
-            <ModalComent
-                setDeleteModalAttentionCard = {setDeleteModalAttentionCard}
-                userDataObj = {userDataObj}
-                setBoolVariable = {props.setBoolVariable}
-
-            />
+    };
+    useEffect(()=>{
+        if(image){
+            sendImageToDB(image);  
         }
-        <div className="sidenav">
-                <Link to="/" style={{ textDecoration: 'none' }}><div  className='backSettings'>🠔</div></Link>
-                <div> Profile</div>
-                <Link to="/options/password" style={{ textDecoration: 'none' }}><div> Password</div></Link>
-                <div onClick={logOutHandler}>  Log Out </div>       
-        </div>
+    }, [image])
+    const sendImageToDB = async(image) => {
+        console.log(image);
+        setTimeout(() => {
+            window.location.reload();
+          }, 150);
+        await axios.post("http://localhost:5000/auth/changefoto", {image, userData});
+       
+    }
 
-        <div className='contentBox'>
-            <div className='profileTitle'><img src="/resume.png" alt="" /></div>  
-            
-            <div className='profileBox'>
-                <div className='imageBox'>
-                    <div>
-                        <input type="file" onChange={handleUpload} />
-                        {image && (
-                            <CloudinaryContext cloudName={cloudName}>
-                                <Image publicId={image}>
-                                    <Transformation width="300" crop="scale" />
-                                </Image>
-                            </CloudinaryContext>
-                        )}
+
+    return (
+        <div className='optionsBox'>
+            {deleteModalAttentionCard &&
+                <ModalComent
+                    setDeleteModalAttentionCard = {setDeleteModalAttentionCard}
+                    userDataObj = {userDataObj}
+                    setBoolVariable = {props.setBoolVariable}
+
+                />
+            }
+            <div className="sidenav">
+                    <Link to="/" style={{ textDecoration: 'none' }}><div  className='backSettings'>🠔</div></Link>
+                    <div> Profile</div>
+                    <Link to="/options/password" style={{ textDecoration: 'none' }}><div> Password</div></Link>
+                    <div onClick={logOutHandler}>  Log Out </div>       
+            </div>
+
+            <div className='contentBox'>
+                <div className='profileTitle'><img src="/resume.png" alt="" /></div>  
+                
+                <div className='profileBox'>
+                    <div className='imageBox'>
+                       
+
+                        {fotoPlatform 
+                            ?
+                                
+                            <div>
+                                 {/* <input type="file" onChange={handleUpload} /> */}
+                                 <label  className="drop-container">
+                                    <span className="drop-title">Drop files here</span>
+                                    or
+                                    <input id= "inputTag" type="file" placeholder='Change Foto' onChange={handleUpload} />
+                                </label>
+                                 {/* {image && (
+                                     <CloudinaryContext cloudName={cloudName}>
+                                         <Image publicId={image}>
+                                             <Transformation width="300" crop="scale" />
+                                         </Image>
+                                     </CloudinaryContext>
+                                 )} */}
+                             </div>         
+                            :
+                                <div className='imagecont'>
+                                    {image 
+                                            ?
+                                            
+                                            <img src={image} alt=""  />
+                                            :
+                                            <img src={userData.image} alt="" />
+                                    }
+                                </div>
+                        }
+
+                        {!fotoPlatform && <div className='changheFoto' onClick={changeFotoHandler}>Change Foto</div>}
                     </div>
-
-                    {fotoPlatform 
-                        ?
-                            <label  className="drop-container">
-                                <span className="drop-title">Drop files here</span>
-                                or
-                                <input id= "inputTag" type="file" placeholder='Change Foto' onChange={handleFileInputChange} />
-                            </label>
-                            
-                        :
+                    <div className='infoAboutBox'>
+                    {menuOption == "0" &&
+                        <div>
+                            <div className='chooseInfo' onClick={() => chooseMenuOptionHandler("1")}> <div>&gt;Profile Data </div> </div>                    
+                            <div className='chooseInfo' onClick={() => chooseMenuOptionHandler("2")}> <div>&gt;Profile Statistics</div> </div>                    
+                            <div className='chooseInfo' onClick={() => chooseMenuOptionHandler("3")}> <div>&gt;Delete Profile </div> </div>                    
+                        </div> 
+                        } 
+                        {menuOption == "1" &&
                             <>
-                                {previewSource 
-                                        ?
+                                {!changeInfoAboutUser ?
+                                        <>
+                                            <div className='exitInMenuOptionImage' onClick={() => chooseMenuOptionHandler("0")}><img src="/exitLeft.png" alt="" /></div>
+                                            <div className='inputDataProfileBox'><input  disabled type="text" placeholder={userDataObj.username} /></div>
+                                            <div className='inputDataProfileBox'><input disabled type="text" placeholder={userDataObj.nickname}/></div>
+                                            <div className='changeIformation' onClick={() => changeInfoAboutUserHandler("1")}>Changhe Profile Information</div>
+                                        </>
+                                    :
+                                        <>
+                                            <div className='inputDataProfileBox'><input type="text" onChange = {onChangeUsernameHandler} placeholder={userDataObj.username} /></div>
+                                            <div className='inputDataProfileBox'><input type="text" onChange = {onChangeNicknameHandler} placeholder={userDataObj.nickname}/></div>
+                                            <div className='saveInformation' onClick={() => changeInfoAboutUserHandler("2")}>Submit</div>
                                         
-                                        <img src={previewSource} alt=""  />
-                                        :
-                                        <img src={userData.image} alt="" />
-                                }
+                                        </>
+                                } 
                             </>
-                    }
+                        } 
+                        {menuOption == "2" &&
 
-                    {!fotoPlatform && <div className='changheFoto' onClick={changeFotoHandler}>Change Foto</div>}
-                </div>
-                <div className='infoAboutBox'>
-                   {menuOption == "0" &&
-                    <div>
-                        <div className='chooseInfo' onClick={() => chooseMenuOptionHandler("1")}> <div>&gt;Profile Data </div> </div>                    
-                        <div className='chooseInfo' onClick={() => chooseMenuOptionHandler("2")}> <div>&gt;Profile Statistics</div> </div>                    
-                        <div className='chooseInfo' onClick={() => chooseMenuOptionHandler("3")}> <div>&gt;Delete Profile </div> </div>                    
-                    </div> 
-                    } 
-                    {menuOption == "1" &&
-                        <>
-                            {!changeInfoAboutUser ?
-                                    <>
-                                        <div className='exitInMenuOptionImage' onClick={() => chooseMenuOptionHandler("0")}><img src="/exitLeft.png" alt="" /></div>
-                                        <div className='inputDataProfileBox'><input  disabled type="text" placeholder={userDataObj.username} /></div>
-                                        <div className='inputDataProfileBox'><input disabled type="text" placeholder={userDataObj.nickname}/></div>
-                                        <div className='changeIformation' onClick={() => changeInfoAboutUserHandler("1")}>Changhe Profile Information</div>
-                                    </>
-                                :
-                                    <>
-                                        <div className='inputDataProfileBox'><input type="text" onChange = {onChangeUsernameHandler} placeholder={userDataObj.username} /></div>
-                                        <div className='inputDataProfileBox'><input type="text" onChange = {onChangeNicknameHandler} placeholder={userDataObj.nickname}/></div>
-                                        <div className='saveInformation' onClick={() => changeInfoAboutUserHandler("2")}>Submit</div>
-                                    
-                                    </>
-                            } 
-                        </>
-                    } 
-                    {menuOption == "2" &&
+                            <div className='profileStatisticsBox'>
+                                <div className='exitInMenuOptionImage' onClick={() => chooseMenuOptionHandler("0")}><img src="/exitLeft.png" alt="" /></div>
 
-                        <div className='profileStatisticsBox'>
-                            <div className='exitInMenuOptionImage' onClick={() => chooseMenuOptionHandler("0")}><img src="/exitLeft.png" alt="" /></div>
+                                <div className='statistics'>
+                                    <div className='typeOfArchieve' title='Privat Articles'>Priv:</div>
+                                    <div className='statNumber'>{props.privateArchieve.length}</div>
+                                    <div className='statNumber'>{props.techArticlesPrivate.length}</div>
+                                    <div className='statNumber'>{props.privateArchieve.length - props.techArticlesPrivate.length}</div>
+                                    <div className='statNumber'>0</div>
+                                    <div className='typeOfArchieve' title='Public Articles'>Pub:</div>
+                                    <div className='statNumber'>{props.publicArhieve.length}</div>
+                                <div className='statNumber'>{props.techArticlesPublic.length}</div>
+                                <div className='statNumber'>{props.publicArhieve.length - props.techArticlesPublic.length}</div>
+                                <div className='statNumber'>{props.allUserComents.length}</div>
+                                <div></div>
+                                    <div className='statTitle'title='Articles in Archieve'> Art </div> 
+                                    <div className='statTitle' title='Technology articles in archieve'> Tech </div> 
+                                    <div className='statTitle' title='Business articles in archieve'> Bus </div> 
+                                    <div className='statTitle' title='All user Comentaries'>Com</div> 
 
-                            <div className='statistics'>
-                                <div className='typeOfArchieve' title='Privat Articles'>Priv:</div>
-                                <div className='statNumber'>{props.privateArchieve.length}</div>
-                                <div className='statNumber'>{props.techArticlesPrivate.length}</div>
-                                <div className='statNumber'>{props.privateArchieve.length - props.techArticlesPrivate.length}</div>
-                                <div className='statNumber'>0</div>
-                                <div className='typeOfArchieve' title='Public Articles'>Pub:</div>
-                                <div className='statNumber'>{props.publicArhieve.length}</div>
-                               <div className='statNumber'>{props.techArticlesPublic.length}</div>
-                               <div className='statNumber'>{props.publicArhieve.length - props.techArticlesPublic.length}</div>
-                               <div className='statNumber'>{props.allUserComents.length}</div>
-                               <div></div>
-                                <div className='statTitle'title='Articles in Archieve'> Art </div> 
-                                <div className='statTitle' title='Technology articles in archieve'> Tech </div> 
-                                <div className='statTitle' title='Business articles in archieve'> Bus </div> 
-                                <div className='statTitle' title='All user Comentaries'>Com</div> 
+                                </div>
 
-                            </div>
-
-                            <div className='statistics'>
-                               {/* <div className='statNumber'>{props.archieveArr.length}</div>
-                               <div className='statNumber'>{props.techArticles.length}</div>
-                               <div className='statNumber'>{props.archieveArr.length - props.techArticles.length}</div>
-                               <div className='statNumber'>0</div> */}
-                               {/* <div className='statTitle'title='Articles in Archieve'> Articles </div>
-                               <div className='statTitle' title='Technology articles in archieve'> Technologies </div>
-                               <div className='statTitle' title='Business articles in archieve'> Business </div>
-                               <div className='statTitle' title='All Comentaries'>Comentaries</div> */}
-
-                           </div>
-                        </div>
-                    }
-                    {menuOption == "3" &&
-
-                        <div className='profileStatisticsBox'>
-                            <div className='exitInMenuOptionImage' onClick={() => chooseMenuOptionHandler("0")}><img src="/exitLeft.png" alt="" /></div>
-                            <div className='deleteProfileCard'>
-                                <div className='infoDelete'>Registered :</div>
-                                <div className='infoDateDelete'>{dateOfRegistered.toDateString()}</div>
-                                <div className='infoDelete'>Login :</div>
-                                <div className='infoDateDelete'>{userData.username}</div>
-                                <div className='infoDelete'>_id :</div>
-                                <div className='infoDateDelete'>{userData._id}</div>
-                                <div className='delete' onClick={deleteAccountHandler}>Delete Account</div>
+                                <div className='statistics'>
                                 
                             </div>
-                        </div>
-                    }
+                            </div>
+                        }
+                        {menuOption == "3" &&
+
+                            <div className='profileStatisticsBox'>
+                                <div className='exitInMenuOptionImage' onClick={() => chooseMenuOptionHandler("0")}><img src="/exitLeft.png" alt="" /></div>
+                                <div className='deleteProfileCard'>
+                                    <div className='infoDelete'>Registered :</div>
+                                    <div className='infoDateDelete'>{dateOfRegistered.toDateString()}</div>
+                                    <div className='infoDelete'>Login :</div>
+                                    <div className='infoDateDelete'>{userData.username}</div>
+                                    <div className='infoDelete'>_id :</div>
+                                    <div className='infoDateDelete'>{userData._id}</div>
+                                    <div className='delete' onClick={deleteAccountHandler}>Delete Account</div>
+                                    
+                                </div>
+                            </div>
+                        }
+                    </div>
                 </div>
+                
             </div>
-            
-        </div>
     </div>
   )
 }
