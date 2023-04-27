@@ -8,6 +8,7 @@ const {validationResult} = require('express-validator');
 const jwt = require('jsonwebtoken');
 const {secret} = require("./config");
 
+const axios= require('axios');
 // const cloudinary = require("cloudinary").v2;
 // const multer = require('multer');
 
@@ -118,6 +119,22 @@ class authController{
     async getUser(req, res){
         
         try {
+
+        var data='';
+        var url=`https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=f34b416e987b44b9849f7505c8a4782d`;
+        var news =await axios.get(url).then((response)=>{
+            console.log(response.data);
+            data = response.data;
+            // res.render('index',{news:data.articles})
+            return data;
+        }).catch(err=>{
+            console.log(err)
+        })
+        // console.log(news);
+        // res.render('index',{news:news.articles,title:"Top-Headline"});
+
+
+
         const userId = req.body._id;
         // console.log(userId);
            const responseUser = await User.find({_id:userId});

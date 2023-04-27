@@ -24,7 +24,9 @@ function App() {
   }, []);
   const getUser = async() => {
       const userData = JSON.parse(localStorage.getItem('userData'));
-      const response = await axios.post("http://localhost:5000/auth/getUser", userData);
+      
+      // const response = await axios.post("http://localhost:5000/auth/getUser", userData);
+      const response = await axios.post("https://newsserver-vrh0.onrender.com/auth/getUser", userData);
       // console.log(response.data.responseUser[0]);
       localStorage.setItem('userData', JSON.stringify(response.data.responseUser[0]));
       
@@ -47,8 +49,9 @@ function App() {
   const getArticleArray = async() => {
         const userData = JSON.parse(localStorage.getItem('userData'));
           // console.log(userData);
-            
-        const response = await axios.post("http://localhost:5000/auth/getArchieve", userData);
+          
+        // const response = await axios.post("http://localhost:5000/auth/getArchieve", userData);
+        const response = await axios.post("https://newsserver-vrh0.onrender.com/auth/getArchieve", userData);
         setPrivateArhieve(response.data.articlesPrivat.reverse());
         setPublicArchieve(response.data.articlesPublic.reverse());
         /// для статистики
@@ -66,7 +69,9 @@ function App() {
   };  
   const getStatisticsComents = async() =>{
     const userData = JSON.parse(localStorage.getItem('userData'));
-    const responseComments = await axios.post("http://localhost:5000/auth/getComments", userData);
+    
+    // const responseComments = await axios.post("http://localhost:5000/auth/getComments", userData);
+    const responseComments = await axios.post("https://newsserver-vrh0.onrender.com/auth/getComments", userData);
     setAllUserComents(responseComments.data.comments)
 
   }
