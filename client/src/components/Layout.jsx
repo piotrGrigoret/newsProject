@@ -9,9 +9,9 @@ const Layout = (props) => {
     const reloadFunc = () =>{
       console.log("G")
       // window.location.reload();
-      setTimeout(() => {
-        window.location.reload();
-      }, 50);
+      // setTimeout(() => {
+      //   window.location.reload();
+      // }, 50);
     }
     return (
       <div>
