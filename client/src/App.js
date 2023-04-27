@@ -14,6 +14,7 @@ import axios from "axios";
 import './App.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import url from './constants';
 function App() {
   
   // юз эффект для получения изначальных данных из БД
@@ -26,7 +27,7 @@ function App() {
       const userData = JSON.parse(localStorage.getItem('userData'));
       
       // const response = await axios.post("http://localhost:5000/auth/getUser", userData);
-      const response = await axios.post("https://newsserver-vrh0.onrender.com/auth/getUser", userData);
+      const response = await axios.post(url + "/auth/getUser", userData);
       // console.log(response.data.responseUser[0]);
       localStorage.setItem('userData', JSON.stringify(response.data.responseUser[0]));
       
@@ -51,7 +52,7 @@ function App() {
           // console.log(userData);
           
         // const response = await axios.post("http://localhost:5000/auth/getArchieve", userData);
-        const response = await axios.post("https://newsserver-vrh0.onrender.com/auth/getArchieve", userData);
+        const response = await axios.post(url + "/auth/getArchieve", userData);
         setPrivateArhieve(response.data.articlesPrivat.reverse());
         setPublicArchieve(response.data.articlesPublic.reverse());
         /// для статистики
@@ -71,7 +72,7 @@ function App() {
     const userData = JSON.parse(localStorage.getItem('userData'));
     
     // const responseComments = await axios.post("http://localhost:5000/auth/getComments", userData);
-    const responseComments = await axios.post("https://newsserver-vrh0.onrender.com/auth/getComments", userData);
+    const responseComments = await axios.post(url + "/auth/getComments", userData);
     setAllUserComents(responseComments.data.comments)
 
   }

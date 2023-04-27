@@ -1,6 +1,9 @@
 import React,{useState} from "react";
 import "./ModalComent.css";
 import axios from "axios";
+
+import url from '../constants'; 
+
 const ModalComent = (props) =>{
     const noHandler = () => {
         props.setDeleteModalAttentionCard(false)
@@ -11,7 +14,7 @@ const ModalComent = (props) =>{
         props.setBoolVariable(false);
         
         //  await axios.post("http://localhost:5000/auth/deleteUser", props.userDataObj );
-         await axios.post("https://newsserver-vrh0.onrender.com/auth/deleteUser", props.userDataObj );
+         await axios.post(url + "/auth/deleteUser", props.userDataObj );
     }
     return(
         <div  className="modalComentBackground" >

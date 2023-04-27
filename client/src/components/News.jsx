@@ -4,6 +4,7 @@ import Punkt from "./Punkt";
 import NewsItem from "./NewsItem";
 import axios from 'axios';
 
+import url from '../constants';
 const News = (props) => {
     const [articles, setArticles] = useState([]);  
     useEffect(()=>{
@@ -35,7 +36,7 @@ const News = (props) => {
             props.setPrivateArhieve(copyArchieveArr);
             
             // const response = await axios.post("http://localhost:5000/auth/addarchieve", copyObject);
-            const response = await axios.post("https://newsserver-vrh0.onrender.com/auth/addarchieve", copyObject);
+            const response = await axios.post(url + "/auth/addarchieve", copyObject);
             
     }
     

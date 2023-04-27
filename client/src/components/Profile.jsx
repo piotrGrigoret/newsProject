@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ModalComent from './ModalComent';
 
+import url from '../constants';
+
 import {Cloudinary} from "@cloudinary/url-gen";
 
 import { CloudinaryContext, Image, Transformation } from "cloudinary-react";
@@ -13,7 +15,6 @@ const apiKey = "235978599428842";
 const apiSecret = "ATMOg0dxvy2DPcKN8t8cNm4iBA4";
 
   
-
 
 const Profile = (props) => {
     const userData = JSON.parse(localStorage.getItem('userData'));//данные о юзере из локалСторадж   
@@ -63,7 +64,7 @@ const Profile = (props) => {
             try {
                 
                 // const response = await axios.post("http://localhost:5000/auth/changeUser", userDataObj);
-                const response = await axios.post("https://newsserver-vrh0.onrender.com/auth/changeUser", userDataObj);
+                const response = await axios.post(url + "/auth/changeUser", userDataObj);
                 window.location.reload();   
                 window.location.reload();   
                 console.log(response);
@@ -134,7 +135,7 @@ const Profile = (props) => {
             window.location.reload();
           }, 150);
         // await axios.post("http://localhost:5000/auth/changefoto", {image, userData});
-        await axios.post("https://newsserver-vrh0.onrender.com/auth/changefoto", {image, userData});
+        await axios.post(url + "/auth/changefoto", {image, userData});
        
     }
 

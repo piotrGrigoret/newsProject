@@ -120,21 +120,6 @@ class authController{
         
         try {
 
-        var data='';
-        var url=`https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=f34b416e987b44b9849f7505c8a4782d`;
-        var news =await axios.get(url).then((response)=>{
-            console.log(response.data);
-            data = response.data;
-            // res.render('index',{news:data.articles})
-            return data;
-        }).catch(err=>{
-            console.log(err)
-        })
-        // console.log(news);
-        // res.render('index',{news:news.articles,title:"Top-Headline"});
-
-
-
         const userId = req.body._id;
         // console.log(userId);
            const responseUser = await User.find({_id:userId});
@@ -194,11 +179,44 @@ class authController{
             console.log(error);
         }
     }
+    /// Получение данных из АПИ файлов
+    async getArticlesBusiness(req, res){
+        try {
+        
+            const url=`https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=f34b416e987b44b9849f7505c8a4782d`;
+            const news = await axios.get(url).then((response)=>{
+            // console.log(response.data.articles);
+            let dataBuss = response.data.articles;
+            res.json({dataBuss});
+        }).catch(err=>{
+            console.log(err)
+        })
+        
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+    
+    async getArticlesTechnologies(req, res){
+        try {
+            
+            const url=`https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=f34b416e987b44b9849f7505c8a4782d`;
+            const news = await axios.get(url).then((response)=>{
+            // console.log(response.data.articles);
+            let dataTech = response.data.articles;
+            res.json({dataTech});
+        }).catch(err=>{
+            console.log(err)
+        })
 
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
 
     // РАБОТА С  АРХИВОМ
-
-
     async getArchieve (req, res){
         
         try {

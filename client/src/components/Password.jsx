@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import "./Password.css";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+
+import url from '../constants';
 const Password = (props) => {
     const userData = JSON.parse(localStorage.getItem('userData'));//данные о юзере из локалСторадж   
     const [userDataObj, setUserDataObj] = useState(userData);
@@ -51,7 +53,7 @@ const Password = (props) => {
         try {
             
             // const response =  await axios.post("http://localhost:5000/auth/newPassword", {userDataObj, newPassword});
-            const response =  await axios.post("https://newsserver-vrh0.onrender.com/auth/newPassword", {userDataObj, newPassword});
+            const response =  await axios.post(url + "/auth/newPassword", {userDataObj, newPassword});
             console.log(response);
             if(response.data.message == "Password changed successfully"){
                 setSuccessChangePassword("Password changed successfully");

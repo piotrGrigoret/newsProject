@@ -1,6 +1,8 @@
 import React from "react";
 import './Button.css';
 import axios from "axios";
+
+import url from '../constants';
 const Button = (props) => {
     const returnObject = async() => {
         const copyLastDeleteObject = {...props.lastDeleteArchiveObject};
@@ -12,7 +14,7 @@ const Button = (props) => {
         window.location.reload();   
 
         // const response = await axios.post("http://localhost:5000/auth/restoreArchieve", copyLastDeleteObject);
-        const response = await axios.post("https://newsserver-vrh0.onrender.com/auth/restoreArchieve", copyLastDeleteObject);
+        const response = await axios.post(url + "/auth/restoreArchieve", copyLastDeleteObject);
     }
     // console.log(props.lastDeleteArchiveObject);
     return (

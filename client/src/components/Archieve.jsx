@@ -4,7 +4,7 @@ import Punkt from './Punkt';
 import Button from './Button';
 import axios from 'axios';
 
-
+import url from '../constants';
 export const Archieve = (props) => {
   // console.log(props.privateArchieve);
 
@@ -47,7 +47,7 @@ const [privatePublic, setPrivatePublic] = useState(idendificatorPrivatePublicCha
         }, 220);
 
         // await axios.post("http://localhost:5000/auth/deletearchieve", {propsObject, userData});
-        await axios.post("https://newsserver-vrh0.onrender.com/auth/deletearchieve", {propsObject, userData});
+        await axios.post(url + "/auth/deletearchieve", {propsObject, userData});
         // console.log(response);
         
       }
@@ -64,7 +64,7 @@ const [privatePublic, setPrivatePublic] = useState(idendificatorPrivatePublicCha
             
             props.setPrivateArhieve(copyArchieveArr);
             // const response = await axios.post("http://localhost:5000/auth/addarchieve", copyObject);
-            const response = await axios.post("https://newsserver-vrh0.onrender.com/auth/addarchieve", copyObject);
+            const response = await axios.post(url + "/auth/addarchieve", copyObject);
             
     }
 

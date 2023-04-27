@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import moment from 'moment';
 import axios from 'axios';
 
+import url from '../constants';
 const Punkt = (props) => {
     
     const openComment = async() =>{
@@ -12,7 +13,7 @@ const Punkt = (props) => {
         const reqObject = props.propsObject
         
         // const response = await axios.post("http://localhost:5000/auth/checkArticleOnOpenComments", reqObject);
-        const response = await axios.post("https://newsserver-vrh0.onrender.com/auth/checkArticleOnOpenComments", reqObject);
+        const response = await axios.post(url + "/auth/checkArticleOnOpenComments", reqObject);
         console.log(response.data.copyObject);
         if(response.data.copyObject){
             localStorage.setItem('currentComment', JSON.stringify(response.data.copyObject));

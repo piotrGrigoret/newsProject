@@ -3,6 +3,7 @@ import './RegistrationPage.css';
 import React, { useState} from 'react';
 import axios from 'axios';
 
+import url from '../constants';
 const Registration = (props) => {
     const defaultUserObj = 
         {
@@ -74,7 +75,7 @@ const Registration = (props) => {
             try {
                 
                 // const response = await axios.post("http://localhost:5000/auth/registration", userObj);
-                const response = await axios.post("https://newsserver-vrh0.onrender.com/auth/registration", userObj);
+                const response = await axios.post(url + "/auth/registration", userObj);
                 // console.log(response);
                 if(response){
                     setCheckSuccessRegistration(true);
@@ -127,7 +128,7 @@ const Registration = (props) => {
         try {
             
             // const response = await axios.post("http://localhost:5000/auth/login", userObj);
-            const response = await axios.post("https://newsserver-vrh0.onrender.com/auth/login", userObj);
+            const response = await axios.post(url + "/auth/login", userObj);
             // console.log(response);
             if(response.data.user){
                 localStorage.setItem('userAcess', true);

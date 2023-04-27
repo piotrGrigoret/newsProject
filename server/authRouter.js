@@ -16,6 +16,9 @@ router.post("/getUser", controller.getUser);
 router.post("/changeUser", controller.changeUser);
 router.post("/deleteUser", controller.deleteUser);
 
+router.get("/getArticlesBusiness", controller.getArticlesBusiness);
+router.get("/getArticlesTechnologies", controller.getArticlesTechnologies);
+
 router.post("/getArchieve", controller.getArchieve);
 router.post("/addarchieve", controller.addarchieve);
 router.post("/deletearchieve", controller.deletearchieve);

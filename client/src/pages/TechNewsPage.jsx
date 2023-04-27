@@ -4,6 +4,9 @@ import React, {useState, useEffect} from "react";
 import { Link } from "react-router-dom";
 import News from '../components/News';
 import ModalComent from '../components/ModalComent';
+
+import url from '../constants';
+
 function TechNewsPage(props) {
   const [articles, setArticles] =  useState([]);
   const [modalComentSetting, setModalComnetSetting] = useState(false);
@@ -18,9 +21,10 @@ function TechNewsPage(props) {
      
   useEffect(()=>{
     const getData = async () => {
-        const dannaie = await axios.get(`https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=f34b416e987b44b9849f7505c8a4782d`);
+        // const dannaie = await axios.get(`https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=f34b416e987b44b9849f7505c8a4782d`);
+        const dannaie = await axios.get(url + "/auth/getArticlesTechnologies");
         // console.log(dannaie.data);
-        setArticles(dannaie.data.articles.map((article, index) =>{
+        setArticles(dannaie.data.dataTech.map((article, index) =>{
           
             return {...article, id: index, deleteFromPrivate: "false"};
           
