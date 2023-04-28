@@ -72,11 +72,12 @@ const [privatePublic, setPrivatePublic] = useState(idendificatorPrivatePublicCha
         if(privatePublic == false){
           setPrivatePublic(true);
           localStorage.setItem('privatePublicChanger', true);
-          
+          console.log(privatePublic);
         } 
         if(privatePublic == true){
-          setPrivatePublic(false);
+          setPrivatePublic(false);          
           localStorage.setItem('privatePublicChanger', false);
+          console.log(privatePublic);
 
         } 
         
