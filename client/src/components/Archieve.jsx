@@ -28,7 +28,11 @@ export const Archieve = (props) => {
   }
 
 const idendificatorPrivatePublicChanger =  JSON.parse(localStorage.getItem('privatePublicChanger'));//информация для переключения хранится в локалСторадж 
-const [privatePublic, setPrivatePublic] = useState(idendificatorPrivatePublicChanger);///стейт для определения вывода публичного или приватного артикла
+
+///стейт для определения вывода публичного или приватного артикла
+// const [privatePublic, setPrivatePublic] = useState(idendificatorPrivatePublicChanger);
+
+const [privatePublic, setPrivatePublic] = useState(false);
 
 
     const onDeleteArchiveArticleHandler = async(propsObject) => {
@@ -71,13 +75,13 @@ const [privatePublic, setPrivatePublic] = useState(idendificatorPrivatePublicCha
     const onChangePrivatePublic = () => {
         if(privatePublic == false){
           setPrivatePublic(true);
-          localStorage.setItem('privatePublicChanger', true);
-          console.log(privatePublic);
+          // localStorage.setItem('privatePublicChanger', true);
+          // console.log(privatePublic);
         } 
         if(privatePublic == true){
           setPrivatePublic(false);          
-          localStorage.setItem('privatePublicChanger', false);
-          console.log(privatePublic);
+          // localStorage.setItem('privatePublicChanger', false);
+          // console.log(privatePublic);
 
         } 
         
