@@ -5,7 +5,7 @@ import "./NewsItem.css";
 const NewsItem = () =>{
 
     return(
-            <span className="newsItem"><img src="/news3.png" alt="" /></span>
+            <span className="newsItem"><img src="/news-portal-low-resolution-logo-color-on-transparent-background.png" alt="" /></span>
             
     )
 

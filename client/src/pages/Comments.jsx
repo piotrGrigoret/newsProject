@@ -160,22 +160,12 @@ export const Comments = (props) => {
         }
     };
     function handleKeyPress(event) {
-        // if(message.text && message.text.length === 0 || message.text.includes('\n')){
-        //     setForArea("");
-        //     setMessage({
-        //         ...message,
-        //         text: ""
-        //         })
-                
-        //     return;
-        // };
-        // console.log(message);
-
+    
         if (event.key === "Enter" && !event.shiftKey) { // добавляем проверку на shiftKey
             event.preventDefault(); // предотвращаем перенос на новую строку
             sendMessageHandler();
-          }
-      }
+        }
+    }
 
     const openComment = (archieve) =>{     //функция передающая информацию об объекте в новое окно коментариев
         localStorage.setItem('currentComment', JSON.stringify(archieve));
@@ -226,11 +216,9 @@ export const Comments = (props) => {
                     {articleMessages.map((message) => 
                         <li className="other" key = {message.date}>
                         <img className='imageUserMessage' src={message.image} alt="" />
-                        {/* <img className='imageUserMessage' src={"/ispanka.jpg"} alt="" /> */}
                         <div className="msg">
                             <div className="user">{message.nickname}</div>
                             <p>{message.text}</p>
-                            {/* <time className='msgDate'>{moment(message.date).format(" h:mm")}</time>                 */}
                         </div>
                         </li>
                     )}

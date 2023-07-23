@@ -17,11 +17,13 @@ const Layout = (props) => {
       <div>
         <div className="menuContainer">
                 <NewsItem/>            
-                <ul className="menu-main">
-                    <li><NavLink to="/">Main</NavLink></li>
-                    <li><NavLink to="/techNews">Technologies</NavLink></li>
-                    <li><NavLink to="/businessNews">Business</NavLink></li>
-                </ul>
+                <div className="menu-mainBox">
+                  <ul className="menu-main">
+                      <li><NavLink to="/">Main</NavLink></li>
+                      <li><NavLink to="/techNews">Technologies</NavLink></li>
+                      <li><NavLink to="/businessNews">Business</NavLink></li>
+                  </ul>
+                </div>
                 <div className="goToArchieve">
                   <Link  className="linkArchieve"  to = "/archieve" onClick={reloadFunc} >
                     <img title = "open archive" src="./arh.png" alt="" />

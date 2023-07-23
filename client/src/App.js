@@ -12,6 +12,7 @@ import Password from './components/Password';
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import './App.css';
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import url from './constants';
@@ -19,6 +20,8 @@ function App() {
   
   // юз эффект для получения изначальных данных из БД
   useEffect(()=>{
+
+    
     getArticleArray();
     getStatisticsComents();
     getUser();
@@ -66,7 +69,7 @@ function App() {
           if(arr.source.name == "TechCrunch"){
               return arr
           }        
-        }));
+        }));  
   };  
   const getStatisticsComents = async() =>{
     const userData = JSON.parse(localStorage.getItem('userData'));
@@ -99,17 +102,7 @@ function App() {
     />
     :
     <BrowserRouter>
-            <Routes>     
-            {/* {!boolVariable ?               //ТАК БУДЕТ ПРАВИЛЬНЕЕ Я ДУМАЮ, В ОТДЕЛЬНОМ РОУТЕ НО ПОКА ЧТО НЕ РАБОТАЕТ -НАДО УЗНАТЬ КАК ЭТО СДЕЛАТЬ
-                <Route path="/registration" 
-                element={
-                  <RegistrationPage                      
-                      setBoolVariable = {setBoolVariable}
-                      setUser = {setUser}
-                  />}
-                />
-                : */}
-                
+            <Routes>            
                 <Route path="options/profile" element = {
                   <Profile
                     setBoolVariable = {setBoolVariable}

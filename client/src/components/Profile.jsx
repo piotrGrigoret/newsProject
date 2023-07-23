@@ -194,7 +194,7 @@ const Profile = (props) => {
                                 </div>
                         }
 
-                        {!fotoPlatform && <div className='changheFoto' onClick={changeFotoHandler}>Change Foto</div>}
+                        {!fotoPlatform && <div className='changheFoto' onClick={changeFotoHandler}>Change Photo</div>}
                     </div>
                     <div className='infoAboutBox'>
                     {menuOption == "0" &&

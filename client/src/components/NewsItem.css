@@ -5,10 +5,12 @@
     /* border: solid; */
     text-align: center;
     font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-
+    grid-row-start: 1;
+    grid-row-end: 3;
 }
 .newsItem img {
-    /* border: solid; */
-    width: 14vw;
-    height: 6w;
+    margin-top: 0.8vw;
+        /* border: solid; */
+    width: 77%;
+    /* height: 6w; */
 }
